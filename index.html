@@ -27,7 +27,10 @@
 
 <center><textarea placeholder='The report will be here' readonly id='report' style='margin: 25px; width: 70%; height: 200px'></textarea></center>
 
+<center><button id='copy' style='margin: 25px; width: 70%; height: 40px' onclick="download(document.getElementById('bb').innerHTML, document.getElementById('report').value)">Download the report</button></center>
+
 <center><button id='copy' style='margin: 25px; width: 70%; height: 40px' onclick="myFunction()">Copy the report to clipboard</button></center>
+
 
 <style>
 #copy:active {
@@ -39,17 +42,19 @@ cursor: pointer;
 }
 </style>
 <script type="text/javascript">
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
 
-This will pop a dialog asking the user if he really wants to close or stay, with a message.
+  element.style.display = 'none';
+  document.body.appendChild(element);
 
-var message = "You have not filled out the form.";
-window.onbeforeunload = function(event) {
-    var e = e || window.event;
-    if (e) {
-        e.returnValue = message;
-    }
-    return message;
-};
+  element.click();
+
+  document.body.removeChild(element);
+}
+
 </script>
 <script>
 var methods = ['Rendering', 'Processing','Compiling','Downloading','Packing','Unpacking','Installing','Uploading'];
