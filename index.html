@@ -1,0 +1,111 @@
+<title>CertainQuick - FastBoot&NetReaper&ReapidBuilder</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<br>
+<center><h3> CertainQuick </h3></center>
+<center><h5> FastBoot-NetReaper-RapidBuilder </h5></center>
+<p id='status' style='text-align: center' >Waiting for initialization...</p>
+<div style='margin: 30px' class="progress">
+  <div id='pb' class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+</div>
+
+<br>
+
+<p style='text-align: center' id = 'p'>0%</p>
+<p style='text-align: center' id = 'bb'>Not started</p>
+<p style='text-align: center' id = 'll'>1% once in ...</p>
+<p style='text-align: center' id = 'pp'>1% once in (AVERAGE) ...</p>
+<p style='text-align: center' id = 'b'>Started: 0 hours 0 min 0 secs ago.</p>
+<p style='text-align: center' id = 'r'>Approximately time left 0 hours 0 min 0 sec.</p>
+<center><button id='progress' style='margin: 25px; width: 70%; height: 40px' onclick="init()">Inititalize rendering!</button></center>
+
+<center><textarea placeholder='Put, modify and remove task(s) here' id='tasks' style='margin: 5px; width: 35%; height: 50px'></textarea>
+<textarea placeholder='CPU %' id='cpu' style='margin: 5px; width: 5%; height: 50px'>CPU 0%</textarea>
+<textarea placeholder='Power %' id='pow' style='margin: 5px; width: 5%; height: 50px'>0%</textarea>
+<textarea placeholder='Temp.' id='temp' style='margin: 5px; width: 5%; height: 50px'>36.6 C</textarea>
+</center>
+
+<center><textarea placeholder='The report will be here' readonly id='report' style='margin: 25px; width: 70%; height: 200px'></textarea></center>
+
+<center><button id='copy' style='margin: 25px; width: 70%; height: 40px' onclick="myFunction()">Copy the report to clipboard</button></center>
+
+<style>
+#copy:active {
+border: 2px solid red;
+background-color: red;
+}
+#status:hover {
+cursor: pointer;
+}
+</style>
+<script type="text/javascript">
+
+This will pop a dialog asking the user if he really wants to close or stay, with a message.
+
+var message = "You have not filled out the form.";
+window.onbeforeunload = function(event) {
+    var e = e || window.event;
+    if (e) {
+        e.returnValue = message;
+    }
+    return message;
+};
+</script>
+<script>
+var methods = ['Rendering', 'Processing','Compiling','Downloading','Packing','Unpacking','Installing','Uploading'];
+var cur = 0;
+document.getElementById('status').onclick = function(){if (cur<=6) {cur++}else {cur=0}; document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';};
+
+var a = 0;
+var l = 0;
+var m = 0;
+var r = 0
+var s = 0;
+var time = Date.now()
+var begining = Date.now()
+function init(){
+document.getElementById('bb').innerHTML = Date();
+document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
+time = Date.now()
+begining = Date.now()
+document.getElementById('progress').innerHTML = '+ 1%';
+document.getElementById('report').value = '>>> ' + a + '% Time: ' + Date() + ' ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec. Tasks: ' + document.getElementById('tasks').value;
+document.getElementById('progress').setAttribute('onclick','plus()')
+}
+function plus(){
+if (a<100) {
+document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
+a++;
+r = Date.now()-time
+l = r;
+s = s + r;
+m = s/(a+1);
+document.getElementById('ll').innerHTML = 'From the last 1% ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.'
+
+document.getElementById('pp').innerHTML = '1% once in (AVERAGE) : ' + Math.floor(m/60/60/1000) + ' hours ' + ' ' + (Math.floor(m/60/1000)-60*Math.floor(m/60/60/1000)) + ' min' + ' ' + (Math.floor(m/1000)-60*Math.floor(m/60/1000)) + ' sec.'
+
+r = m;
+r = r*(100-a)
+document.getElementById('r').innerHTML = 'Approximately left: ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.'
+time = Date.now();
+document.getElementById('pb').style.width = a + '%';
+document.getElementById('p').innerHTML = a + '%';
+
+s = Date.now();
+s = s - begining;
+
+document.getElementById('b').innerHTML = 'Started ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec ago.';
+document.getElementById('report').value = document.getElementById('report').value + '\n' + '>>> ' + a + '% Time: last: ' + (Math.floor(l/1000)-60*Math.floor(l/60/1000)) + 'sec; ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ' Passed: ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec.'+'Approximately left: ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.' +' Tasks: ' + methods[cur] + + ' ' + document.getElementById('tasks').value + 'CPU: ' + document.getElementById("cpu").value + 'Power: ' + document.getElementById("pow").value + 'Temp: ' + document.getElementById("temp").value;
+} else {
+document.getElementById('status').innerHTML = 'Render is complete!'
+document.getElementById('progress').innerHTML = 'Render is complete!'}
+}
+
+function myFunction() {
+  var copyText = document.getElementById("report");
+  copyText.select();
+  copyText.setSelectionRange(0, 99999)
+  document.execCommand("copy");
+}
+
+</script>
