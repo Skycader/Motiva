@@ -53,10 +53,13 @@ function download(filename, text) {
   element.click();
 
   document.body.removeChild(element);
+  localStorage.setItem('memory', '')
+  document.getElementById('report').value = '';
 }
 
 </script>
 <script>
+document.getElementById('report').value = localStorage.getItem('memory');
 var methods = ['Rendering', 'Processing','Compiling','Downloading','Packing','Unpacking','Installing','Uploading'];
 var cur = 0;
 document.getElementById('status').onclick = function(){if (cur<=6) {cur++}else {cur=0}; document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';};
@@ -74,10 +77,11 @@ document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getE
 time = Date.now()
 begining = Date.now()
 document.getElementById('progress').innerHTML = '+ 1%';
-document.getElementById('report').value = '>>> ' + a + '% Time: ' + Date() + ' ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec. Tasks: ' + document.getElementById('tasks').value;
+document.getElementById('report').value += '>>> ' + a + '% Time: ' + Date() + ' ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec. Tasks: ' + document.getElementById('tasks').value;
 document.getElementById('progress').setAttribute('onclick','plus()')
 }
 function plus(){
+
 if (a<100) {
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
 a++;
@@ -101,6 +105,7 @@ s = s - begining;
 
 document.getElementById('b').innerHTML = 'Started ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec ago.';
 document.getElementById('report').value = document.getElementById('report').value + '\n' + '>>> ' + a + '% Time: last: ' + (Math.floor(l/1000)-60*Math.floor(l/60/1000)) + 'sec; ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ' Passed: ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec.'+'Approximately left: ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.' +' Tasks: ' + methods[cur] + + ' ' + document.getElementById('tasks').value + 'CPU: ' + document.getElementById("cpu").value + 'Power: ' + document.getElementById("pow").value + 'Temp: ' + document.getElementById("temp").value;
+localStorage.setItem('memory', document.getElementById('report').value)
 } else {
 document.getElementById('status').innerHTML = 'Render is complete!'
 document.getElementById('progress').innerHTML = 'Render is complete!'}
