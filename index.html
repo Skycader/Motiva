@@ -72,6 +72,7 @@ var s = 0;
 var time = Date.now()
 var begining = Date.now()
 function init(){
+
 document.getElementById('bb').innerHTML = Date();
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
 time = Date.now()
@@ -79,6 +80,8 @@ begining = Date.now()
 document.getElementById('progress').innerHTML = '+ 1%';
 document.getElementById('report').value += '>>> ' + a + '% Time: ' + Date() + ' ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec. Tasks: ' + document.getElementById('tasks').value;
 document.getElementById('progress').setAttribute('onclick','plus()')
+localStorage.setItem('memory', document.getElementById('report').value)
+
 }
 function plus(){
 
