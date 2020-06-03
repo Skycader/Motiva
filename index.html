@@ -13,7 +13,7 @@
 
 <p style='text-align: center' id = 'p'>0%</p>
 <p style='text-align: center' id = 'bb'>Not started</p>
-<p style='text-align: center' id = 'li'>Before shutdown: 0</p>
+<p style='text-align: center' id = 'li'>Before shutdown: not started</p>
 <p style='text-align: center' id = 'll'>1% once in ...</p>
 <p style='text-align: center' id = 'sp'>Total speed: 0%/h</p>
 <p style='text-align: center' id = 'pp'>1% once in (AVERAGE) ...</p>
@@ -23,6 +23,8 @@
 
 <center><textarea placeholder='Put, modify and remove task(s) here' id='tasks' style='margin: 5px; width: 35%; height: 50px'></textarea>
 <textarea placeholder='Time given (seconds) for each 1%' id='limit' style='margin: 5px; width: 5%; height: 50px'></textarea>
+<textarea placeholder='Minimal time' id='min' style='margin: 5px; width: 5%; height: 50px'></textarea>
+
 <textarea placeholder='CPU %' id='cpu' style='margin: 5px; width: 5%; height: 50px'></textarea>
 <textarea placeholder='Power %' id='pow' style='margin: 5px; width: 5%; height: 50px'></textarea>
 <textarea placeholder='Temp.' id='temp' style='margin: 5px; width: 5%; height: 50px'></textarea>
@@ -46,6 +48,10 @@ cursor: pointer;
 </style>
 <script type="text/javascript">
 
+function play() {
+  var audio = new Audio('http://dight310.byu.edu/media/audio/FreeLoops.com/2/2/Car%20Alarm%20Pulse.wav-22743-Free-Loops.com.mp3');
+  audio.play();
+}
 
 
 function download(filename, text) {
@@ -68,6 +74,9 @@ function download(filename, text) {
 var timeleft = 0;
 function limit(){
 	timeleft--;
+	if (timeleft<(1*document.getElementById('min').value)) {
+		play();
+	}
 	if (timeleft<=0) {
 		document.getElementById('li').innerHTML = 'System is now offline (ran out of time).';
 		clearInterval(timerId);
