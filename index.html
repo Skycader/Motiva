@@ -13,16 +13,19 @@
 
 <p style='text-align: center' id = 'p'>0%</p>
 <p style='text-align: center' id = 'bb'>Not started</p>
+<p style='text-align: center' id = 'li'>Before shutdown: 0</p>
 <p style='text-align: center' id = 'll'>1% once in ...</p>
+<p style='text-align: center' id = 'sp'>Total speed: 0%/h</p>
 <p style='text-align: center' id = 'pp'>1% once in (AVERAGE) ...</p>
 <p style='text-align: center' id = 'b'>Started: 0 hours 0 min 0 secs ago.</p>
 <p style='text-align: center' id = 'r'>Approximately time left 0 hours 0 min 0 sec.</p>
 <center><button id='progress' style='margin: 25px; width: 70%; height: 40px' onclick="init()">Inititalize rendering!</button></center>
 
 <center><textarea placeholder='Put, modify and remove task(s) here' id='tasks' style='margin: 5px; width: 35%; height: 50px'></textarea>
-<textarea placeholder='CPU %' id='cpu' style='margin: 5px; width: 5%; height: 50px'>CPU 0%</textarea>
-<textarea placeholder='Power %' id='pow' style='margin: 5px; width: 5%; height: 50px'>0%</textarea>
-<textarea placeholder='Temp.' id='temp' style='margin: 5px; width: 5%; height: 50px'>36.6 C</textarea>
+<textarea placeholder='Time given (seconds) for each 1%' id='limit' style='margin: 5px; width: 5%; height: 50px'></textarea>
+<textarea placeholder='CPU %' id='cpu' style='margin: 5px; width: 5%; height: 50px'></textarea>
+<textarea placeholder='Power %' id='pow' style='margin: 5px; width: 5%; height: 50px'></textarea>
+<textarea placeholder='Temp.' id='temp' style='margin: 5px; width: 5%; height: 50px'></textarea>
 </center>
 
 <center><textarea placeholder='The report will be here' readonly id='report' style='margin: 25px; width: 70%; height: 200px'></textarea></center>
@@ -42,6 +45,9 @@ cursor: pointer;
 }
 </style>
 <script type="text/javascript">
+
+
+
 function download(filename, text) {
   var element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -59,6 +65,18 @@ function download(filename, text) {
 
 </script>
 <script>
+var timeleft = 0;
+function limit(){
+	timeleft--;
+	if (timeleft<=0) {
+		document.getElementById('li').innerHTML = 'System is now offline (ran out of time).';
+		clearInterval(timerId);
+		download(document.getElementById('bb').innerHTML, document.getElementById('report').value)
+	} else {
+	document.getElementById('li').innerHTML = 'Before shutdown: '+timeleft + '(H: ' + Math.floor(timeleft/60/60) + 'm: '+ Math.floor(timeleft/60) + ')';
+	}
+}
+
 document.getElementById('report').value = localStorage.getItem('memory');
 var methods = ['Rendering', 'Processing','Compiling','Downloading','Packing','Unpacking','Installing','Uploading'];
 var cur = 0;
@@ -72,7 +90,8 @@ var s = 0;
 var time = Date.now()
 var begining = Date.now()
 function init(){
-
+timeleft = 1*document.getElementById('limit').value;
+timerId = setInterval(() => limit(), 1000);
 document.getElementById('bb').innerHTML = Date();
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
 time = Date.now()
@@ -84,7 +103,7 @@ localStorage.setItem('memory', document.getElementById('report').value)
 
 }
 function plus(){
-
+timeleft = timeleft+(1*document.getElementById('limit').value);
 if (a<100) {
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
 a++;
@@ -92,8 +111,9 @@ r = Date.now()-time
 l = r;
 s = s + r;
 m = s/(a+1);
+as = 60/((Math.floor(m/1000)-60*Math.floor(m/60/1000)));
 document.getElementById('ll').innerHTML = 'From the last 1% ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.'
-
+document.getElementById('sp').innerHTML = 'Average speed: ' + as + '%/h';
 document.getElementById('pp').innerHTML = '1% once in (AVERAGE) : ' + Math.floor(m/60/60/1000) + ' hours ' + ' ' + (Math.floor(m/60/1000)-60*Math.floor(m/60/60/1000)) + ' min' + ' ' + (Math.floor(m/1000)-60*Math.floor(m/60/1000)) + ' sec.'
 
 r = m;
