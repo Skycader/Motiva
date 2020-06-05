@@ -19,7 +19,10 @@
 <p style='text-align: center' id = 'pp'>1% once in (AVERAGE) ...</p>
 <p style='text-align: center' id = 'b'>Started: 0 hours 0 min 0 secs ago.</p>
 <p style='text-align: center' id = 'r'>Approximately time left 0 hours 0 min 0 sec.</p>
-<center><button id='progress' style='margin: 25px; width: 70%; height: 40px' onclick="init()">Inititalize rendering!</button></center>
+<center><button id='progress' style='margin: 25px; width: 20%; height: 40px' onclick="init()">Inititalize rendering!</button>
+<button id='progress' style='margin: 25px; width: 10%; height: 40px' onclick="plus(2)">+2%</button>
+<button id='progress' style='margin: 25px; width: 10%; height: 40px' onclick="plus(3)">+3%</button>
+<button id='progress' style='margin: 25px; width: 10%; height: 40px' onclick="plus(4)">+4%</button></center>
 
 <center><textarea placeholder='Put, modify and remove task(s) here' id='tasks' style='margin: 5px; width: 35%; height: 50px'></textarea>
 <textarea placeholder='Time given (seconds) for each 1%' id='limit' style='margin: 5px; width: 5%; height: 50px'></textarea>
@@ -107,19 +110,19 @@ time = Date.now()
 begining = Date.now()
 document.getElementById('progress').innerHTML = '+ 1%';
 document.getElementById('report').value += '>>> ' + a + '% Time: ' + Date() + ' ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec. Tasks: ' + document.getElementById('tasks').value;
-document.getElementById('progress').setAttribute('onclick','plus()')
+document.getElementById('progress').setAttribute('onclick','plus(1)')
 localStorage.setItem('memory', document.getElementById('report').value)
 
 }
-function plus(){
+function plus(percent){
 timeleft = timeleft+(1*document.getElementById('limit').value);
 if (a<100) {
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
-a++;
+a = a + percent;
 r = Date.now()-time
 l = r;
 s = s + r;
-m = s/(a+1);
+m = s/(a+percent);
 as = 3600/((Math.floor(m/1000)));
 document.getElementById('ll').innerHTML = 'From the last 1% ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.'
 document.getElementById('sp').innerHTML = 'Average speed: ' + as + '%/h';
