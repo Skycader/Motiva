@@ -19,6 +19,9 @@
 <p style='text-align: center' id = 'pp'>1% once in (AVERAGE) ...</p>
 <p style='text-align: center' id = 'b'>Started: 0 hours 0 min 0 secs ago.</p>
 <p style='text-align: center' id = 'r'>Approximately time left 0 hours 0 min 0 sec.</p>
+
+<center><div id='stat' style='position: relative; overflow: auto; border: 1px solid black; width: 80%; height: 300px'></div></center>
+
 <center><button id='progress' style='margin: 25px; width: 20%; height: 40px' onclick="init()">Inititalize rendering!</button>
 <button id='progress' style='margin: 25px; width: 10%; height: 40px' onclick="plus(2)">+2%</button>
 <button id='progress' style='margin: 25px; width: 10%; height: 40px' onclick="plus(3)">+3%</button>
@@ -116,6 +119,7 @@ localStorage.setItem('memory', document.getElementById('report').value)
 
 }
 function plus(percent){
+
 timeleft = timeleft+(1*document.getElementById('limit').value);
 if (a<100) {
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
@@ -125,6 +129,8 @@ l = r;
 s = s + r;
 m = s/(a+percent);
 as = 3600/((Math.floor(m/1000)));
+document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' style='float: left; position: absolute; left: "+a*10+"px; bottom:  0px; background-color: red; width: 10px; height: "+as+"px'></div>");
+
 document.getElementById('ll').innerHTML = 'From the last 1% ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.'
 document.getElementById('sp').innerHTML = 'Average speed: ' + as + '%/h';
 document.getElementById('pp').innerHTML = '1% once in (AVERAGE) : ' + Math.floor(m/60/60/1000) + ' hours ' + ' ' + (Math.floor(m/60/1000)-60*Math.floor(m/60/60/1000)) + ' min' + ' ' + (Math.floor(m/1000)-60*Math.floor(m/60/1000)) + ' sec.'
