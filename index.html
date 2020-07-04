@@ -97,7 +97,7 @@ document.getElementById('report').value = localStorage.getItem('memory');
 var methods = ['Rendering', 'Processing','Compiling','Downloading','Packing','Unpacking','Installing','Uploading'];
 var cur = 0;
 document.getElementById('status').onclick = function(){if (cur<=6) {cur++}else {cur=0}; document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';};
-
+var click = 0;
 var a = 0;
 var l = 0;
 var m = 0;
@@ -129,8 +129,8 @@ l = r;
 s = s + r;
 m = s/(a+percent);
 as = 3600/((Math.floor(m/1000)));
-document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' style='float: left; position: absolute; left: "+a*10+"px; bottom:  0px; background-color: red; width: 10px; height: "+as+"px'></div>");
-
+document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' style='float: left; position: absolute; left: "+click*10+"px; bottom:  0px; background-color: red; width: "+percent*10+"px; height: "+as+"px'></div>");
+click++;
 document.getElementById('ll').innerHTML = 'From the last 1% ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.'
 document.getElementById('sp').innerHTML = 'Average speed: ' + as + '%/h';
 document.getElementById('pp').innerHTML = '1% once in (AVERAGE) : ' + Math.floor(m/60/60/1000) + ' hours ' + ' ' + (Math.floor(m/60/1000)-60*Math.floor(m/60/60/1000)) + ' min' + ' ' + (Math.floor(m/1000)-60*Math.floor(m/60/1000)) + ' sec.'
