@@ -21,6 +21,9 @@
 <p style='text-align: center' id = 'r'>Approximately time left 0 hours 0 min 0 sec.</p>
 
 <center><div id='stat' style='position: relative; overflow: auto; border: 1px solid black; width: 80%; height: 300px'></div></center>
+<br>
+
+<center><div id='metr' style='border-bottom: 10px solid black; width: 5px; height: 150px; background-color: red; transform-origin: bottom center; transform: rotateZ(-90deg); transition-duration: 1s'></div></center>
 
 <center><button id='progress' style='margin: 25px; width: 20%; height: 40px' onclick="init()">Inititalize rendering!</button>
 <button id='progress' style='margin: 25px; width: 10%; height: 40px' onclick="plus(2)">+2%</button>
@@ -106,6 +109,7 @@ var s = 0;
 var time = Date.now()
 var begining = Date.now()
 function init(){
+document.getElementById("metr").style.transform = "rotate("+-80+"deg)";
 timeleft = 1*document.getElementById('limit').value;
 timerId = setInterval(() => limit(), 1000);
 document.getElementById('bb').innerHTML = Date();
@@ -129,8 +133,14 @@ l = r;
 s = s + r;
 m = s/(a+percent);
 as = 3600/((Math.floor(m/1000)));
-document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' style='float: left; position: absolute; left: "+click*10+"px; bottom:  0px; background-color: red; width: "+percent*10+"px; height: "+as+"px'></div>");
+if (as>300) {
+as=300;
+}
+document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' style='float: left; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: red; width: "+percent*1+"%; height: "+as+"px'></div>");
 click++;
+click+=percent-1;
+deg = as/(300/180)-90;
+document.getElementById("metr").style.transform = "rotate("+deg+"deg)";
 document.getElementById('ll').innerHTML = 'From the last 1% ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.'
 document.getElementById('sp').innerHTML = 'Average speed: ' + as + '%/h';
 document.getElementById('pp').innerHTML = '1% once in (AVERAGE) : ' + Math.floor(m/60/60/1000) + ' hours ' + ' ' + (Math.floor(m/60/1000)-60*Math.floor(m/60/60/1000)) + ' min' + ' ' + (Math.floor(m/1000)-60*Math.floor(m/60/1000)) + ' sec.'
