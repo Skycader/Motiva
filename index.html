@@ -105,6 +105,7 @@ display: none;
       img2.src = c.toDataURL("image/jpeg");
       img2.width = 800;
        document.getElementById('render').appendChild(img2);
+	   
 	   document.querySelector('img').style.width = '100%';
 	}
 
@@ -232,19 +233,27 @@ clear();
 
 } else {alert('Fill the fields!')}
 }
-var quality = 100;
+var quality = 50;
 function plus(percent){
 
-quality-=percent
-if (quality<1) {
-quality = 1;
-}
-lol(quality);
+
 timeleft2 = Date.now()+(1*document.getElementById('limit').value)*1000;
 if (a<100) {
 if (filled()) {
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
 a = a + percent;
+quality = Math.floor(100/a*5-4)
+if (a >=80) {
+quality = 2;
+}
+if (a >=100) {
+quality = 1;
+a = 100;
+}
+if (quality<1) {
+quality = 1;
+}
+lol(quality);
 r = Date.now()-time
 l = r;
 s = s + r;
