@@ -109,7 +109,7 @@ display: none;
 </style>
   <script>
   function setSpeed(speed){
-  speed2 = Math.floor(360*(speed/100));
+  speed2 = Math.floor((speed/100))*360;
 speed = Math.floor(speed*10/60)*360
 
 console.log('speed2 '+speed2);
