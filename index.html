@@ -109,17 +109,20 @@ display: none;
 </style>
   <script>
   function setSpeed(speed){
+  speed2 = Math.floor(360*(speed/100));
 speed = Math.floor(speed*10/60)*360
-document.querySelectorAll('.spinning-loader')[1].animate([
+
+console.log('speed2 '+speed2);
+document.querySelectorAll('.spinning-loader')[0].animate([
   // keyframes
   { transform: 'rotate(0)' }, 
-  { transform: 'rotate('+speed+'deg)' }
+  { transform: 'rotate('+speed2+'deg)' }
 ], {
   // timing options
   duration: 1000,
   iterations: Infinity
 })
-document.querySelectorAll('.spinning-loader')[0].animate([
+document.querySelectorAll('.spinning-loader')[1].animate([
   // keyframes
   { transform: 'rotate(0)' }, 
   { transform: 'rotate('+speed+'deg)' }
@@ -173,7 +176,7 @@ document.querySelectorAll('.spinning-loader')[0].animate([
     
 
   </script>
-<center><div id='stat' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 400px'></div></center>
+<center><div id='stat' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
 <br>
 <center><textarea placeholder='The report will be here' readonly id='report' style='margin: 25px; width: 70%; height: 200px'></textarea></center>
 
@@ -332,10 +335,10 @@ l = r;
 s = s + r;
 m = s/(a+percent);
 as = 3600/((Math.floor(m/1000)));
-setSpeed(as);
-if (as>400) {
-as=400;
+if (as>300) {
+as=300;
 }
+setSpeed(as);
 document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: green; width: "+percent*1.5+"%; height: "+as+"px'></div>");
 document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='cpu'style='float: left; opacity: 1; border: 4px solid blue; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: transparent; width: "+percent*1.5+"%; height: "+document.getElementById('cpu').value*1+"%'></div>");
 document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='power'style='float: left; opacity: 1;  border: 2px solid yellow; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: transparent; width: "+percent*1.5+"%; height: "+document.getElementById('pow').value*1+"%'></div>");
