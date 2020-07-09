@@ -110,7 +110,13 @@ display: none;
   <script>
   function setSpeed(speed){
   speed2 = Math.floor((speed/100))*360;
+  if (speed2 == 0) {
+  speed2 = 360;
+  }
 speed = Math.floor(speed*10/60)*360
+  if (speed == 0) {
+  speed = 360;
+  }
 
 console.log('speed2 '+speed2);
 document.querySelectorAll('.spinning-loader')[0].animate([
