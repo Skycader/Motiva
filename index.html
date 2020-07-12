@@ -112,6 +112,7 @@ display: none;
   <script>
   var stopped = false;
   function pause(){
+  setSpeed(0)
 	stopped = true;
 	s = 0;
 	plus(0);
@@ -119,15 +120,11 @@ display: none;
   }
   function setSpeed(speed){
   speed2 = Math.floor((speed/100))*360;
-  if (speed2 == 0) {
-  speed2 = 360;
-  }
+   
 speed = Math.floor(speed*10/60)*360
-  if (speed == 0) {
-  speed = 360;
-  }
+   
   
-  if (as == 0) {
+  if (cur_speed == 0) {
   speed = speed2 = 0;
   }
 
@@ -358,6 +355,7 @@ quality = 2;
 if (a >=100) {
 quality = 1;
 a = 100;
+setSpeed(0);
 }
 if (quality<1) {
 quality = 1;
@@ -375,7 +373,7 @@ if (as>300) {
 as=300;
 }
 if (percent == 0) {
-as = 0;
+cur_speed = 0;
 }
 
 
