@@ -29,7 +29,8 @@ display: none;
 <p style='text-align: center' id = 'bb'>Not started</p>
 <p style='text-align: center' id = 'li'>Before shutdown: not started</p>
 <p style='text-align: center' id = 'll'>1% once in ...</p>
-<p style='text-align: center' id = 'sp'>Total speed: 0%/h</p>
+<p style='text-align: center' id = 'cur_speed'>Current speed: 0%/h</p>
+<p style='text-align: center' id = 'sp'>Average speed: 0%/h</p>
 <p style='text-align: center' id = 'pp'>1% once in (AVERAGE) ...</p>
 <p style='text-align: center' id = 'b'>Started: 0 hours 0 min 0 secs ago.</p>
 <p style='text-align: center' id = 'r'>Approximately time left 0 hours 0 min 0 sec.</p>
@@ -129,6 +130,7 @@ speed = Math.floor(speed*10/60)*360
   if (as == 0) {
   speed = speed2 = 0;
   }
+
 
 console.log('speed2 '+speed2);
 document.querySelectorAll('.spinning-loader')[0].animate([
@@ -338,6 +340,7 @@ clear();
 }
 var quality = 50;
 function plus(percent){
+
 if ((stopped)&&(percent !== 0)) {
 stopped = false;
 document.getElementById('startup').play()
@@ -374,8 +377,18 @@ as=300;
 if (percent == 0) {
 as = 0;
 }
-setSpeed(as);
-document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: green; width: "+percent*1.5+"%; height: "+as+"px'></div>");
+
+
+cur_speed = (1/(r/1000))*60*percent*60;
+if (cur_speed>300) {
+cur_speed=300;
+}
+if (percent == 0) {
+cur_speed = 0;
+}
+console.log(r/1000);
+setSpeed(cur_speed);
+document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: green; width: "+percent*1.5+"%; height: "+cur_speed+"px'></div>");
 document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='cpu'style='float: left; opacity: 1; border: 4px solid blue; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: transparent; width: "+percent*1.5+"%; height: "+document.getElementById('cpu').value*1+"%'></div>");
 document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='power'style='float: left; opacity: 1;  border: 2px solid yellow; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: transparent; width: "+percent*1.5+"%; height: "+document.getElementById('pow').value*1+"%'></div>");
 document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1; border-radius: 25px; border: 1px solid darkred; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: transparent; width: "+percent*1.5+"%; height: "+document.getElementById('temp').value*1+"%'></div>");
@@ -385,7 +398,7 @@ document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"'
 
 click++;
 click+=percent-1;
-deg = as/(300/180)-90;
+deg = cur_speed/(300/180)-90;
 deg2 = document.getElementById('cpu').value*(180/100)-90;
 deg3 = document.getElementById('pow').value*(180/100)-90;
 deg4 = document.getElementById('temp').value*(180/100)-90;
@@ -394,6 +407,7 @@ document.getElementById("metr2").style.transform = "rotate("+deg2+"deg)";
 document.getElementById("metr3").style.transform = "rotate("+deg3+"deg)";
 document.getElementById("metr4").style.transform = "rotate("+deg4+"deg)";
 document.getElementById('ll').innerHTML = 'From the last 1% ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.'
+document.getElementById('cur_speed').innerHTML = 'Current speed: ' + cur_speed + '%/h';
 document.getElementById('sp').innerHTML = 'Average speed: ' + as + '%/h';
 document.getElementById('pp').innerHTML = '1% once in (AVERAGE) : ' + Math.floor(m/60/60/1000) + ' hours ' + ' ' + (Math.floor(m/60/1000)-60*Math.floor(m/60/60/1000)) + ' min' + ' ' + (Math.floor(m/1000)-60*Math.floor(m/60/1000)) + ' sec.'
 
