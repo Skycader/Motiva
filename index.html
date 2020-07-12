@@ -69,7 +69,7 @@ display: none;
 
 <center > 
 
-<textarea placeholder='Speed (0-360 km/h)' id='go1' style='margin: 5px; width: 5%; height: 50px'></textarea>
+<textarea placeholder='Speed (0-300 km/h)' id='go1' style='margin: 5px; width: 5%; height: 50px'></textarea>
 <textarea placeholder='Fuel left' id='go2' style='margin: 5px; width: 5%; height: 50px'></textarea>
 <textarea placeholder='Fuel left in seconds' id='go3' style='margin: 5px; width: 5%; height: 50px'></textarea>
 <textarea placeholder='Distance travelled in KM' id='go4' style='margin: 5px; width: 10%; height: 50px'></textarea>
@@ -363,7 +363,7 @@ var quality = 50;
 function plus(percent){
 
 var fuel = 1*document.getElementById('go2').value;
-fuel+=percent*360;
+fuel+=percent*300;
 document.getElementById('go2').value = fuel;
 if ((stopped)&&(percent !== 0)) {
 stopped = false;
