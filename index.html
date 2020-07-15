@@ -75,11 +75,12 @@ display: none;
 <textarea placeholder='Distance travelled in KM' id='go4' style='margin: 5px; width: 10%; height: 50px'></textarea>
 </center>
 
-<center>Now rendering frame (put frame src to tasks field):</center>
+<center onclick="document.querySelector('#active').classList.toggle('hide');">Now rendering frame (put frame src to tasks field):</center>
 <div style='margin: 0 auto; width: 80%;' id='render'>
 <img style='opacity: 0%' id="image1" src="" />
 </div>
 <br>
+<div id='active' class='hide'>
 <div style='display: flex; justify-content: center'>
 <div style='margin-right: 150px; float: left' class="spinning-loader"></div>
 <div style='margin-left: 150px; float: left' class="spinning-loader"></div>
@@ -90,8 +91,12 @@ display: none;
         <div class="progress-inner"><div style="-webkit-animation: moveProgress 0.00s linear infinite;" class="progress-wrap-w"></div></div>
     </div>
 </div>
+</div>
 
 <style>
+.hide {
+display: none;
+}
 /* progressbar */
 .progress-wrap {
     display: none;
