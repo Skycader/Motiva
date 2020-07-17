@@ -7,7 +7,7 @@ overflow-x: hidden;
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <br>
-<center><h3> CertainQuick </h3></center>
+<center><h3 onclick='limit()'> CertainQuick </h3></center>
 <center><h5> FastBoot-NetReaper-RapidBuilder </h5></center>
 <p id='status' style='text-align: center' >Waiting for initialization...</p>
 <div style='margin: 30px' class="progress">
@@ -436,7 +436,7 @@ initDraw(document.getElementById('tasks').value);
 console.log(document.getElementById('tasks').value);
 if (filled()) {
 timeleft2 = Date.now()+(1*document.getElementById('limit').value)*1000;
-timerId = setInterval(() => limit(), 1000);
+ 
 document.getElementById('bb').innerHTML = Date();
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
 time = Date.now()
