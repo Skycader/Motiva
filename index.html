@@ -28,7 +28,8 @@ display: none;
 <p style='text-align: center' id = 'p'>0%</p>
 <p style='text-align: center' id = 'bb'>Not started</p>
 <p style='text-align: center' id = 'li'>Before shutdown: not started</p>
-<p style='text-align: center' id = 'll'>1% once in ...</p>
+<p style='text-align: center' id = 'made'>It takes n sec for 1%.</p>
+<p style='text-align: center' id = 'll'>From the last % ...</p>
 <p style='text-align: center' id = 'cur_speed'>Current speed: 0%/h</p>
 <p style='text-align: center' id = 'sp'>Average speed: 0%/h</p>
 <p style='text-align: center' id = 'pp'>1% once in (AVERAGE) ...</p>
@@ -428,6 +429,7 @@ var l = 0;
 var m = 0;
 var r = 0
 var s = 0;
+var made = 0;
 var time = Date.now()
 var begining = Date.now()
 function init(){
@@ -491,6 +493,8 @@ try {
 lol(quality);
 } catch(e) { console.log(e)}
 r = Date.now()-time;
+
+made = r/1000/percent;
 l = r;
 s = s + r;
 m = s/(a+percent);
@@ -531,6 +535,7 @@ document.getElementById("metr").style.transform = "rotate("+deg+"deg)";
 document.getElementById("metr2").style.transform = "rotate("+deg2+"deg)";
 document.getElementById("metr3").style.transform = "rotate("+deg3+"deg)";
 document.getElementById("metr4").style.transform = "rotate("+deg4+"deg)";
+document.getElementById('made').innerHTML = 'It takes ' + made + ' sec for 1%';
 document.getElementById('ll').innerHTML = 'From the last 1% ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.'
 document.getElementById('cur_speed').innerHTML = 'Current speed: ' + cur_speed + '%/h';
 document.getElementById('sp').innerHTML = 'Average speed: ' + as + '%/h';
