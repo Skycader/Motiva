@@ -95,6 +95,7 @@ display: none;
 </div>
 
 <style>
+
 .hide {
 display: none;
 }
@@ -517,16 +518,20 @@ cur_speed = 0;
 }
 console.log(r/1000);
  
-document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: green; width: "+percent*1.5+"%; height: "+cur_speed+"px'></div>");
-document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='cpu'style='float: left; opacity: 1; border: 4px solid blue; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: transparent; width: "+percent*1.5+"%; height: "+document.getElementById('cpu').value*1+"%'></div>");
-document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='power'style='float: left; opacity: 1;  border: 2px solid yellow; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: transparent; width: "+percent*1.5+"%; height: "+document.getElementById('pow').value*1+"%'></div>");
-document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1; border-radius: 25px; border: 1px solid darkred; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: transparent; width: "+percent*1.5+"%; height: "+document.getElementById('temp').value*1+"%'></div>");
-
-
-
-
+ function stat(percent){
+ for (var i=1; i<=percent; i++) {
+ var done = document.getElementById('tasks').value.slice(0,100);
+ document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done+"</div>");
+document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;   opacity: 1; border: 2px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  background-color: green; width: "+ 1.5+"%; height: "+cur_speed+"px'></div>");
+document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='cpu'style='float: left; opacity: 1; border: 4px solid blue; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: transparent; width: "+ 1.5+"%; height: "+document.getElementById('cpu').value*1+"%'></div>");
+document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='power'style='float: left; opacity: 1;  border: 2px dashed yellow; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: transparent; width: "+ 1.5+"%; height: "+document.getElementById('pow').value*1+"%'></div>");
+document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1; border-radius: 25px; border: 1px solid darkred; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: transparent; width: "+ 1.5+"%; height: "+document.getElementById('temp').value*1+"%'></div>");
 click++;
-click+=percent-1;
+}
+}
+
+stat(percent);
+ 
 deg = cur_speed/(300/180)-90;
 deg2 = document.getElementById('cpu').value*(180/100)-90;
 deg3 = document.getElementById('pow').value*(180/100)-90;
