@@ -294,7 +294,17 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 
   </script>
   <br><br><br> 
+  <p> Speed </p>
 <center><div id='stat' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
+<br>
+<p>Processor load</p>
+<center><div id='stat2' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
+<br>
+<p>Energy left</p>
+<center><div id='stat3' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
+<br>
+<p>Temperature</p>
+<center><div id='stat4' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
 <br>
 <center><textarea placeholder='The report will be here' readonly id='report' style='margin: 25px; width: 70%; height: 200px'></textarea></center>
 
@@ -523,9 +533,9 @@ console.log(r/1000);
  var done = document.getElementById('tasks').value.slice(0,25) + '...';
  document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done+"</div>");
 document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;   opacity: 1; border: 2px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  background-color: green; width: "+ 1.5+"%; height: "+cur_speed+"px'></div>");
-document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='cpu'style='float: left; opacity: 1; border: 4px solid blue; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: transparent; width: "+ 1.5+"%; height: "+document.getElementById('cpu').value*1+"%'></div>");
-document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='power'style='float: left; opacity: 1;  border: 2px dashed yellow; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: transparent; width: "+ 1.5+"%; height: "+document.getElementById('pow').value*1+"%'></div>");
-document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1; border-radius: 25px; border: 1px solid darkred; position: absolute; left: "+click*1+"%; bottom:  0px; background-color: transparent; width: "+ 1.5+"%; height: "+document.getElementById('temp').value*1+"%'></div>");
+document.getElementById('stat2').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='cpu'style='float: left; opacity: 1;  border: 2px solid darkblue; background-color: blue; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+document.getElementById('cpu').value*1+"%'></div>");
+document.getElementById('stat3').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='power'style='float: left; opacity: 1;  border: 2px solid darkorange; background-color: yellow; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+document.getElementById('pow').value*1+"%'></div>");
+document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1;   border: 2px solid darkred; background-color: red; position: absolute; left: "+click*1+"%; bottom:  0px;   width: "+ 1.5+"%; height: "+document.getElementById('temp').value*1+"%'></div>");
 click++;
 }
 }
