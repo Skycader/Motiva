@@ -8,7 +8,7 @@ overflow-x: hidden;
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <br>
 <center><h3 onclick='limit()'> CertainQuick </h3></center>
-<center><h5> FastBoot-NetReaper-RapidBuilder </h5></center>
+<center><h5> FastBoot-NetReaper-RapidBuilder v 26.07.2020 </h5></center>
 <p id='status' style='text-align: center' >Waiting for initialization...</p>
 <div style='margin: 30px' class="progress">
   <div id='pb' class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
@@ -488,21 +488,7 @@ if (a<100) {
 if (filled()) {
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
 a = a + percent;
-quality = Math.floor(100/a*5-4)
-if (a >=80) {
-quality = 2;
-}
-if (a >=100) {
-quality = 1;
-a = 100;
-setSpeed(0,0);
-}
-if (quality<1) {
-quality = 1;
-}
-try {
-lol(quality);
-} catch(e) { console.log(e)}
+
 r = Date.now()-time;
 
 made = r/1000/percent;
@@ -528,8 +514,35 @@ cur_speed = 0;
 }
 console.log(r/1000);
  
+
+ 
  function stat(percent){
  for (var i=1; i<=percent; i++) {
+ 
+ ///
+  quality = Math.floor(100/click*5-4)
+if (click >=80) {
+quality = 2;
+}
+if (click >=100) {
+quality = 1;
+click = 100;
+setSpeed(0,0);
+}
+if (quality<1) {
+quality = 1;
+}
+try {
+lol(quality);
+} catch(e) { console.log(e)}
+///
+var link = document.createElement('a');
+link.href = document.querySelector('#render img').src;
+link.download =  click;
+document.body.appendChild(link);
+link.click();
+document.body.removeChild(link); 
+ 
  var done = document.getElementById('tasks').value.slice(0,25) + '...';
  document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done+"</div>");
 document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;   opacity: 1; border: 2px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  background-color: green; width: "+ 1.5+"%; height: "+cur_speed+"px'></div>");
