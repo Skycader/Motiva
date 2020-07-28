@@ -49,7 +49,7 @@ display: none;
 <center>
  Engine is<input type="checkbox" name="option4" style="transform: scale(3);" value="a4">
 <button id='progress' style='margin: 25px; width: 20%; height: 40px' onclick="init()">+</button>
-<input type="number" style="height: 50px" id='donepercent' min="1" max="100" step="1" /> %</center>
+<input type="number" style="height: 50px" id='donepercent' min="0" max="100" step="1" /> %</center>
 
 <center><input id='tasks' placeholder='Tasks'  style="width: 50%; height: 50px"  />
 
@@ -59,7 +59,7 @@ display: none;
 -->
 
 <input id='cpu' placeholder='cpu' type="number"  style="height: 50px" min="0" max="5" step="0.5" />
-<input id='pow' placeholder='pow' type="number"  style="height: 50px" max="5" step="0.5" />
+<input id='pow' placeholder='pow' type="number"  style="height: 50px" min = "0" max="5" step="0.5" />
 <input id='temp' placeholder='temp' type="number" style="height: 50px"   min="0" max="5" step="0.5" />
 </center>
 
@@ -366,11 +366,11 @@ return true;
 function clear(){
 
 document.querySelector('#tasks').value = '';
-/*
+document.querySelector('#donepercent').value = '';
 document.querySelector('#cpu').value = '';
 document.querySelector('#pow').value = '';
 document.querySelector('#temp').value = '';
-*/
+
 }
 document.getElementById('bb').innerHTML = Date();
 var timeleft = 0;
