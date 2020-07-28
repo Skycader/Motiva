@@ -8,7 +8,7 @@ overflow-x: hidden;
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <br>
 <center><h3 onclick='limit()'> CertainQuick </h3></center>
-<center><h5> FastBoot-NetReaper-RapidBuilder v 26.07.2020 </h5></center>
+<center><h5> FastBoot-NetReaper-RapidBuilder v 20.07.28 </h5></center>
 <p id='status' style='text-align: center' >Waiting for initialization...</p>
 <div style='margin: 30px' class="progress">
   <div id='pb' class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
@@ -46,28 +46,24 @@ display: none;
 
 <br>
 <center><strong>CAUTION: CLICK +n% for EACH microWORK! If you did 1% of progress it could take 50% of actual work. count WORK! Pay for usage of microprocessor! </strong></center>
-<center><button id='progress' style='margin: 25px; width: 20%; height: 40px' onclick="init()">Start engine</button>
-<button id='progress' style='margin: 25px; width: 10%; height: 40px' onclick="plus(2)">+2%</button>
-<button id='progress' style='margin: 25px; width: 10%; height: 40px' onclick="plus(3)">+3%</button>
-<button id='progress' style='margin: 25px; width: 10%; height: 40px' onclick="plus(4)">+4%</button></center>
 <center>
-<button id='progress' style='margin: 25px; width: 10%; height: 40px' onclick="plus(5)">+5%</button>
-<button id='progress' style='margin: 25px; width: 10%; height: 40px' onclick="plus(6)">+6%</button>
-<button id='progress' style='margin: 25px; width: 10%; height: 40px' onclick="plus(7)">+7%</button>
-<button id='progress' style='margin: 25px; width: 10%; height: 40px' onclick="plus(8)">+8%</button> 
-<button id='progress' style='margin: 25px; width: 10%; height: 40px' onclick="pause()">Engine off</button></center>
+ Engine is<input type="checkbox" name="option4" style="transform: scale(3);" value="a4">
+<button id='progress' style='margin: 25px; width: 20%; height: 40px' onclick="init()">+</button>
+<input type="number" style="height: 50px" id='donepercent' min="1" max="100" step="1" /> %</center>
 
-<center><textarea placeholder='Put, modify and remove task(s) here' id='tasks' style='margin: 5px; width: 35%; height: 50px'></textarea>
+<center><input id='tasks' placeholder='Tasks'  style="width: 50%; height: 50px"  />
 
+<!--
 <textarea placeholder='Time given (seconds) for each 1%' id='limit' style='margin: 5px; width: 5%; height: 50px'></textarea>
 <textarea placeholder='Minimal time' id='min' style='margin: 5px; width: 5%; height: 50px'></textarea>
+-->
 
-<textarea placeholder='CPU %' id='cpu' style='margin: 5px; width: 5%; height: 50px'></textarea>
-<textarea placeholder='Power %' id='pow' style='margin: 5px; width: 5%; height: 50px'></textarea>
-<textarea placeholder='Temp.' id='temp' style='margin: 5px; width: 5%; height: 50px'></textarea>
+<input id='cpu' placeholder='cpu' type="number"  style="height: 50px" min="0" max="5" step="0.5" />
+<input id='pow' placeholder='pow' type="number"  style="height: 50px" max="5" step="0.5" />
+<input id='temp' placeholder='temp' type="number" style="height: 50px"   min="0" max="5" step="0.5" />
 </center>
 
-
+<!--
 <center > 
 
 <textarea placeholder='Speed (0-300 km/h)' id='go1' style='margin: 5px; width: 5%; height: 50px'></textarea>
@@ -75,7 +71,7 @@ display: none;
 <textarea placeholder='Fuel left in seconds' id='go3' style='margin: 5px; width: 5%; height: 50px'></textarea>
 <textarea placeholder='Distance travelled in KM' id='go4' style='margin: 5px; width: 10%; height: 50px'></textarea>
 </center>
-
+-->
 <center onclick="document.querySelector('#active').classList.toggle('hide');">Now rendering frame (put frame src to tasks field):</center>
 <div style='margin: 0 auto; width: 80%;' id='render'>
 <img style='opacity: 0%' id="image1" src="" />
@@ -210,14 +206,7 @@ display: none;
 }
 </style>
   <script>
-  var stopped = false;
-  function pause(){
-  setSpeed(0,0)
-	stopped = true;
-	s = 0;
-	plus(0);
-	document.getElementById('engineoff').play()
-  }
+ 
   function setSpeed(speed,speed2){
   speed2 = Math.floor(speed2*10/60)*360
    
@@ -375,15 +364,19 @@ return true;
 } else {return false};
 }
 function clear(){
+
 document.querySelector('#tasks').value = '';
+/*
 document.querySelector('#cpu').value = '';
 document.querySelector('#pow').value = '';
 document.querySelector('#temp').value = '';
+*/
 }
 document.getElementById('bb').innerHTML = Date();
 var timeleft = 0;
 var cur_speed = 0;
 function limit(){
+/*
 var a =  (1-(1*document.getElementById('go1').value/100))/2;
 	if (1*document.getElementById('go1').value/100 == 0) {
 		a = 0;
@@ -428,6 +421,7 @@ var a =  (1-(1*document.getElementById('go1').value/100))/2;
 	}
 	
 	}
+	*/
 }
 
 document.getElementById('report').value = localStorage.getItem('memory');
@@ -444,17 +438,16 @@ var made = 0;
 var time = Date.now()
 var begining = Date.now()
 function init(){
-document.getElementById('startup').play()
+
 initDraw(document.getElementById('tasks').value);
 console.log(document.getElementById('tasks').value);
 if (filled()) {
-timeleft2 = Date.now()+(1*document.getElementById('limit').value)*1000;
- 
+ if (engine) {
 document.getElementById('bb').innerHTML = Date();
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
 time = Date.now()
 begining = Date.now()
-document.getElementById('progress').innerHTML = '+ 1%';
+document.getElementById('progress').innerHTML = '+';
 document.getElementById('report').value += '>>> ' + a + '% Time: ' + Date() + ' ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec. Tasks: ' + document.getElementById('tasks').value;
 document.getElementById('progress').setAttribute('onclick','plus(1)')
 localStorage.setItem('memory', document.getElementById('report').value)
@@ -471,25 +464,25 @@ document.getElementById("metr4").style.transform = "rotate("+deg4+"deg)";
 clear();
 
 } else {alert('Fill the fields!')}
-}
+}}
 var quality = 50;
 function plus(percent){
+percent = 1*document.querySelector('#donePercent').value;
+ 
 
-var fuel = 1*document.getElementById('go2').value;
-fuel+=percent*300;
-document.getElementById('go2').value = fuel;
-if ((stopped)&&(percent !== 0)) {
-stopped = false;
-document.getElementById('startup').play()
-}
-
-timeleft2 = Date.now()+(1*document.getElementById('limit').value)*1000;
+ 
 if (a<100) {
-if (filled()) {
+if ((filled())&&(checkbox.checked)) {
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
 a = a + percent;
-
+if (engine) {
+time = Date.now();
+engine = false;
+ 
+}
+ 
 r = Date.now()-time;
+ 
 
 made = r/1000/percent;
 l = r;
@@ -549,14 +542,15 @@ console.log('lets try');
 try {
 lol(quality);
 console.log('drawed');
-} catch(e) { console.log('error'); console.log(e)}
-///
 var link = document.createElement('a');
 link.href = document.querySelector('#render img').src;
 link.download =  click;
 document.body.appendChild(link);
 link.click();
 document.body.removeChild(link); 
+} catch(e) { console.log('error'); console.log(e)}
+///
+
 }
 }
 
@@ -607,4 +601,17 @@ function myFunction() {
   document.execCommand("copy");
 }
 
+var checkbox = document.querySelector("input[type=checkbox]");
+var engine = false;
+checkbox.addEventListener( 'change', function() {
+    if(this.checked) {
+       document.querySelector('#startup').play();
+	    
+	   engine = true;
+    } else {
+        document.querySelector('#engineoff').play();
+		 
+		engine = false;
+    }
+});
 </script>
