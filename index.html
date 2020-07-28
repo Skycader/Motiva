@@ -45,7 +45,7 @@ display: none;
 </div>
 
 <br>
-<center><strong>CAUTION: CLICK +n% for EACH microprogress! For EACH!</strong></center>
+<center><strong>CAUTION: CLICK +n% for EACH microWORK! If you did 1% of progress it could take 50% of actual work. count WORK! Pay for usage of microprocessor! </strong></center>
 <center><button id='progress' style='margin: 25px; width: 20%; height: 40px' onclick="init()">Start engine</button>
 <button id='progress' style='margin: 25px; width: 10%; height: 40px' onclick="plus(2)">+2%</button>
 <button id='progress' style='margin: 25px; width: 10%; height: 40px' onclick="plus(3)">+3%</button>
@@ -519,7 +519,20 @@ console.log(r/1000);
  function stat(percent){
  for (var i=1; i<=percent; i++) {
  
- ///
+  var done = document.getElementById('tasks').value.slice(0,25) + '...';
+ var done2 = Date().slice(0,24)  
+ document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done+"</div>");
+document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;   opacity: 1; border: 2px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  background-color: green; width: "+ 1.5+"%; height: "+cur_speed+"px'></div>");
+ document.getElementById('stat2').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done2+"</div>");
+
+document.getElementById('stat2').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='cpu'style='float: left; opacity: 1;  border: 2px solid darkblue; background-color: blue; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+document.getElementById('cpu').value*1+"%'></div>");
+ document.getElementById('stat3').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done2+"</div>");
+
+document.getElementById('stat3').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='power'style='float: left; opacity: 1;  border: 2px solid darkorange; background-color: yellow; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+document.getElementById('pow').value*1+"%'></div>");
+ document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done2+"</div>");
+
+document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1;   border: 2px solid darkred; background-color: red; position: absolute; left: "+click*1+"%; bottom:  0px;   width: "+ 1.5+"%; height: "+document.getElementById('temp').value*1+"%'></div>");
+click++;
   quality = Math.floor(100/click*5-4)
 if (click >=80) {
 quality = 2;
@@ -532,9 +545,11 @@ setSpeed(0,0);
 if (quality<1) {
 quality = 1;
 }
+console.log('lets try');
 try {
 lol(quality);
-} catch(e) { console.log(e)}
+console.log('drawed');
+} catch(e) { console.log('error'); console.log(e)}
 ///
 var link = document.createElement('a');
 link.href = document.querySelector('#render img').src;
@@ -542,16 +557,12 @@ link.download =  click;
 document.body.appendChild(link);
 link.click();
 document.body.removeChild(link); 
+}
+}
+
  
- var done = document.getElementById('tasks').value.slice(0,25) + '...';
- document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done+"</div>");
-document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;   opacity: 1; border: 2px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  background-color: green; width: "+ 1.5+"%; height: "+cur_speed+"px'></div>");
-document.getElementById('stat2').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='cpu'style='float: left; opacity: 1;  border: 2px solid darkblue; background-color: blue; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+document.getElementById('cpu').value*1+"%'></div>");
-document.getElementById('stat3').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='power'style='float: left; opacity: 1;  border: 2px solid darkorange; background-color: yellow; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+document.getElementById('pow').value*1+"%'></div>");
-document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1;   border: 2px solid darkred; background-color: red; position: absolute; left: "+click*1+"%; bottom:  0px;   width: "+ 1.5+"%; height: "+document.getElementById('temp').value*1+"%'></div>");
-click++;
-}
-}
+
+ 
 
 stat(percent);
  
