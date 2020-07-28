@@ -8,7 +8,7 @@ overflow-x: hidden;
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <br>
 <center><h3 onclick='limit()'> CertainQuick </h3></center>
-<center><h5> FastBoot-NetReaper-RapidBuilder v 20.07.28 </h5></center>
+<center><h5> FastBoot-NetReaper-RapidBuilder v 20.07.28.20.05 </h5></center>
 <p id='status' style='text-align: center' >Waiting for initialization...</p>
 <div style='margin: 30px' class="progress">
   <div id='pb' class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
@@ -353,10 +353,10 @@ function download(filename, text) {
 </script>
 <script>
 function filled(){
-var a = document.querySelector('#tasks').value
-var b = document.querySelector('#cpu').value;
-var c = document.querySelector('#pow').value;
-var d = document.querySelector('#temp').value
+var a = document.querySelector('#tasks').value;
+var b = document.querySelector('#cpu').value*20;
+var c = document.querySelector('#pow').value*20;
+var d = document.querySelector('#temp').value*20;
 
 var f = a.length*b.length*c.length*d.length;
 if (f !==0) {
@@ -518,13 +518,13 @@ console.log(r/1000);
 document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;   opacity: 1; border: 2px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  background-color: green; width: "+ 1.5+"%; height: "+cur_speed+"px'></div>");
  document.getElementById('stat2').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done2+"</div>");
 
-document.getElementById('stat2').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='cpu'style='float: left; opacity: 1;  border: 2px solid darkblue; background-color: blue; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+document.getElementById('cpu').value*1+"%'></div>");
+document.getElementById('stat2').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='cpu'style='float: left; opacity: 1;  border: 2px solid darkblue; background-color: blue; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+document.getElementById('cpu').value*20+"%'></div>");
  document.getElementById('stat3').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done2+"</div>");
 
-document.getElementById('stat3').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='power'style='float: left; opacity: 1;  border: 2px solid darkorange; background-color: yellow; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+document.getElementById('pow').value*1+"%'></div>");
+document.getElementById('stat3').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='power'style='float: left; opacity: 1;  border: 2px solid darkorange; background-color: yellow; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+document.getElementById('pow').value*20+"%'></div>");
  document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done2+"</div>");
 
-document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1;   border: 2px solid darkred; background-color: red; position: absolute; left: "+click*1+"%; bottom:  0px;   width: "+ 1.5+"%; height: "+document.getElementById('temp').value*1+"%'></div>");
+document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1;   border: 2px solid darkred; background-color: red; position: absolute; left: "+click*1+"%; bottom:  0px;   width: "+ 1.5+"%; height: "+document.getElementById('temp').value*20+"%'></div>");
 click++;
   quality = Math.floor(100/click*5-4)
 if (click >=80) {
