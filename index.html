@@ -481,16 +481,20 @@ clear();
  }
 var quality = 50;
 function plus(percent){
+if (percent == 100) {
+document.querySelector('#donePercent').value = 1;	
+}
 if (checkbox.checked) {
 percent = 1*document.querySelector('#donePercent').value;
- 
+
 
  
 if (a<100) {
  
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
 a = a + percent;
- 
+
+
 r = Date.now()-time;
 if (percent > 0) {
 worktime+=r; 
@@ -599,9 +603,14 @@ s = s - begining;
 document.getElementById('b').innerHTML = 'Started ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec.';
 document.getElementById('worktime').innerHTML = 'Working for ' + Math.floor(worktime/60/60/1000) + ' hours ' + ' ' + (Math.floor(worktime/60/1000)-60*Math.floor(worktime/60/60/1000)) + ' min' + ' ' + (Math.floor(worktime/1000)-60*Math.floor(worktime/60/1000)) + ' sec ago.';
 document.getElementById('avg').innerHTML = 'Work average speed: ' + avg() + '%/h.';
-document.getElementById('report').value = document.getElementById('report').value + '\n' + '>>> ' + a + '% Time: last: ' + (Math.floor(l/1000)-60*Math.floor(l/60/1000)) + 'sec; ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ' Passed: ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec.'+'Approximately left: ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.' +' Tasks: ' + methods[cur] + + ' ' + document.getElementById('tasks').value + 'CPU: ' + document.getElementById("cpu").value + 'Power: ' + document.getElementById("pow").value + 'Temp: ' + document.getElementById("temp").value;
+document.getElementById('report').value = document.getElementById('report').value + '\n' + '>>> ' +a + '% Tasks: ' + document.getElementById('tasks').value  + '. \n Time: last: ' + (Math.floor(l/1000)-60*Math.floor(l/60/1000)) + 'sec; ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ' Passed: ' + Math.floor(s/60/60/1000) + ' hours' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec. '+'Approximately left: ' + Math.floor(r/60/60/1000) + ' hours' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.' + ' CPU: ' + document.getElementById("cpu").value + ' Power: ' + document.getElementById("pow").value + ' Temp: ' + document.getElementById("temp").value;
 localStorage.setItem('memory', document.getElementById('report').value)
 clear();
+
+
+if (a >= 100) {
+plus(100);
+}
  
 } else {
 document.getElementById('status').innerHTML = 'Render is complete!'
