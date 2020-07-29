@@ -8,7 +8,7 @@ overflow-x: hidden;
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <br>
 <center><h3 onclick='limit()'> CertainQuick </h3></center>
-<center><h5> FastBoot-NetReaper-RapidBuilder v 20.07.28.20.05 </h5></center>
+<center><h5> FastBoot-NetReaper-RapidBuilder v 20.07.29.3:18 </h5></center>
 <p id='status' style='text-align: center' >Waiting for initialization...</p>
 <div style='margin: 30px' class="progress">
   <div id='pb' class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
@@ -353,12 +353,12 @@ function download(filename, text) {
 </script>
 <script>
 function filled(){
-var a = document.querySelector('#tasks').value;
+var a = document.querySelector('#tasks').value*1;
 var b = document.querySelector('#cpu').value*20;
 var c = document.querySelector('#pow').value*20;
 var d = document.querySelector('#temp').value*20;
 
-var f = a.length*b.length*c.length*d.length;
+var f = a *b  *c *d ;
 if (f !==0) {
 return true;
 } else {return false};
@@ -441,8 +441,8 @@ function init(){
 
 initDraw(document.getElementById('tasks').value);
 console.log(document.getElementById('tasks').value);
-if (filled()) {
- if (engine) {
+ 
+ 
 document.getElementById('bb').innerHTML = Date();
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
 time = Date.now()
@@ -451,9 +451,9 @@ document.getElementById('progress').innerHTML = '+';
 document.getElementById('report').value += '>>> ' + a + '% Time: ' + Date() + ' ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec. Tasks: ' + document.getElementById('tasks').value;
 document.getElementById('progress').setAttribute('onclick','plus(1)')
 localStorage.setItem('memory', document.getElementById('report').value)
-deg2 = document.getElementById('cpu').value*(180/100)-90;
-deg3 = document.getElementById('pow').value*(180/100)-90;
-deg4 = document.getElementById('temp').value*(180/100)-90;
+deg2 = 20*document.getElementById('cpu').value*(180/100)-90;
+deg3 = 20*document.getElementById('pow').value*(180/100)-90;
+deg4 = 20*document.getElementById('temp').value*(180/100)-90;
 setTimeout(function start(){
 document.getElementById("metr2").style.transform = "rotate("+deg2+"deg)";
 document.getElementById("metr3").style.transform = "rotate("+deg3+"deg)";
@@ -463,8 +463,8 @@ document.getElementById("metr4").style.transform = "rotate("+deg4+"deg)";
 
 clear();
 
-} else {alert('Fill the fields!')}
-}}
+ 
+ }
 var quality = 50;
 function plus(percent){
 percent = 1*document.querySelector('#donePercent').value;
@@ -472,14 +472,9 @@ percent = 1*document.querySelector('#donePercent').value;
 
  
 if (a<100) {
-if ((filled())&&(checkbox.checked)) {
+ 
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
 a = a + percent;
-if (engine) {
-time = Date.now();
-engine = false;
- 
-}
  
 r = Date.now()-time;
  
@@ -561,9 +556,9 @@ document.body.removeChild(link);
 stat(percent);
  
 deg = cur_speed/(300/180)-90;
-deg2 = document.getElementById('cpu').value*(180/100)-90;
-deg3 = document.getElementById('pow').value*(180/100)-90;
-deg4 = document.getElementById('temp').value*(180/100)-90;
+deg2 = 20*document.getElementById('cpu').value*(180/100)-90;
+deg3 = 20*document.getElementById('pow').value*(180/100)-90;
+deg4 = 20*document.getElementById('temp').value*(180/100)-90;
 document.getElementById("metr").style.transform = "rotate("+deg+"deg)";
 document.getElementById("metr2").style.transform = "rotate("+deg2+"deg)";
 document.getElementById("metr3").style.transform = "rotate("+deg3+"deg)";
@@ -588,7 +583,7 @@ document.getElementById('b').innerHTML = 'Started ' + Math.floor(s/60/60/1000) +
 document.getElementById('report').value = document.getElementById('report').value + '\n' + '>>> ' + a + '% Time: last: ' + (Math.floor(l/1000)-60*Math.floor(l/60/1000)) + 'sec; ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ' Passed: ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec.'+'Approximately left: ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.' +' Tasks: ' + methods[cur] + + ' ' + document.getElementById('tasks').value + 'CPU: ' + document.getElementById("cpu").value + 'Power: ' + document.getElementById("pow").value + 'Temp: ' + document.getElementById("temp").value;
 localStorage.setItem('memory', document.getElementById('report').value)
 clear();
-} else {alert('Fill the fields!')}
+ 
 } else {
 document.getElementById('status').innerHTML = 'Render is complete!'
 document.getElementById('progress').innerHTML = 'Render is complete!'}
@@ -606,11 +601,14 @@ var engine = false;
 checkbox.addEventListener( 'change', function() {
     if(this.checked) {
        document.querySelector('#startup').play();
-	    
+	    clear();
+		plus();
 	   engine = true;
     } else {
         document.querySelector('#engineoff').play();
-		 
+		 clear();
+		 engine = true;
+		plus(); 
 		engine = false;
     }
 });
