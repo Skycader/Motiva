@@ -8,7 +8,7 @@ overflow-x: hidden;
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <br>
 <center><h3 onclick='limit()'> CertainQuick </h3></center>
-<center><h5> FastBoot-NetReaper-RapidBuilder v 20.07.29.3:18 </h5></center>
+<center><h5> FastBoot-NetReaper-RapidBuilder v 20.07.29.23:02 </h5></center>
 <p id='status' style='text-align: center' >Waiting for initialization...</p>
 <div style='margin: 30px' class="progress">
   <div id='pb' class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
@@ -31,9 +31,11 @@ display: none;
 <p style='text-align: center' id = 'made'>It takes n sec for 1%.</p>
 <p style='text-align: center' id = 'll'>From the last % ...</p>
 <p style='text-align: center' id = 'cur_speed'>Current speed: 0%/h</p>
-<p style='text-align: center' id = 'sp'>Average speed: 0%/h</p>
+<p style='text-align: center' id = 'avg'>Work average speed: 0%/h</p>
+<p style='text-align: center' id = 'sp'>Total average speed: 0%/h</p>
 <p style='text-align: center' id = 'pp'>1% once in (AVERAGE) ...</p>
 <p style='text-align: center' id = 'b'>Started: 0 hours 0 min 0 secs ago.</p>
+<p style='text-align: center' id = 'worktime'>Working time: 0 hours 0 min 0 secs ago.</p>
 <p style='text-align: center' id = 'r'>Approximately time left 0 hours 0 min 0 sec.</p>
 
 <div style='display: flex; flex-direction: row; align-items: center; justify-content: space-around'>
@@ -48,7 +50,7 @@ display: none;
 <center><strong>CAUTION: CLICK +n% for EACH microWORK! If you did 1% of progress it could take 50% of actual work. count WORK! Pay for usage of microprocessor! </strong></center>
 <center>
  Engine is<input type="checkbox" name="option4" style="transform: scale(3);" value="a4">
-<button id='progress' style='margin: 25px; width: 20%; height: 40px' onclick="init()">+</button>
+<button id='progress' style='margin: 25px; width: 20%; height: 40px' onclick="plus()">+</button>
 <input type="number" style="height: 50px" id='donepercent' min="0" max="100" step="1" /> %</center>
 
 <center><input id='tasks' placeholder='Tasks'  style="width: 50%; height: 50px"  />
@@ -206,6 +208,8 @@ display: none;
 }
 </style>
   <script>
+  
+  var worktime = 0;
  
   function setSpeed(speed,speed2){
   speed2 = Math.floor(speed2*10/60)*360
@@ -333,7 +337,13 @@ cursor: pointer;
 }
 </style>
 <script type="text/javascript">
-
+ 
+function avg(){
+ 
+var sum = 0;
+	 document.querySelectorAll("div[alt='speed']").forEach(element => sum+=element.offsetHeight)
+	return sum/document.querySelectorAll("div[alt='speed']").length;
+}
 
 function download(filename, text) {
   var element = document.createElement('a');
@@ -477,12 +487,14 @@ document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getE
 a = a + percent;
  
 r = Date.now()-time;
- 
-
+if (percent > 0) {
+worktime+=r; 
+}
 made = r/1000/percent;
 l = r;
 s = s + r;
 m = s/(a+percent);
+//m = worktime/(a+percent);
 as = 3600/((Math.floor(m/1000)));
 console.log('as'+as)
 if (as>300) {
@@ -579,7 +591,9 @@ document.getElementById('p').innerHTML = a + '%';
 s = Date.now();
 s = s - begining;
 
-document.getElementById('b').innerHTML = 'Started ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec ago.';
+document.getElementById('b').innerHTML = 'Started ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec.';
+document.getElementById('worktime').innerHTML = 'Working for ' + Math.floor(worktime/60/60/1000) + ' hours ' + ' ' + (Math.floor(worktime/60/1000)-60*Math.floor(worktime/60/60/1000)) + ' min' + ' ' + (Math.floor(worktime/1000)-60*Math.floor(worktime/60/1000)) + ' sec ago.';
+document.getElementById('avg').innerHTML = 'Work average speed: ' + avg() + '%/h.';
 document.getElementById('report').value = document.getElementById('report').value + '\n' + '>>> ' + a + '% Time: last: ' + (Math.floor(l/1000)-60*Math.floor(l/60/1000)) + 'sec; ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ' Passed: ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec.'+'Approximately left: ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.' +' Tasks: ' + methods[cur] + + ' ' + document.getElementById('tasks').value + 'CPU: ' + document.getElementById("cpu").value + 'Power: ' + document.getElementById("pow").value + 'Temp: ' + document.getElementById("temp").value;
 localStorage.setItem('memory', document.getElementById('report').value)
 clear();
