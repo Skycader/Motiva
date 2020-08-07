@@ -307,6 +307,10 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 <p>Temperature</p>
 <center><div id='stat4' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
 <br>
+<center><button onclick='document.getElementById("stat").innerHTML = ""'>Clear speed statistics</button>
+<button onclick='document.getElementById("stat2").innerHTML = ""'>Clear stat2</button>
+<button onclick='document.getElementById("stat3").innerHTML = ""'>Clear stat3</button>
+<button onclick='document.getElementById("stat4").innerHTML = ""'>Clear stat4</button></center>
 <center><textarea placeholder='The report will be here' readonly id='report' style='margin: 25px; width: 70%; height: 200px'></textarea></center>
 
 <center><button id='copy' style='margin: 25px; width: 70%; height: 40px' onclick="download(document.getElementById('bb').innerHTML, document.getElementById('report').value)">Download the report</button></center>
@@ -639,6 +643,7 @@ document.getElementById('report').value+='\n Overall speed: ' + as2 + '%/h';
 document.getElementById('report').value+='\n'+document.getElementById('pp').innerHTML
 document.getElementById('report').value+='\n'+document.getElementById('worktime').innerHTML;
 document.getElementById('report').innerHTML+= '\n'+document.getElementById('uptime').innerHTML;
+document.getElementById('report').innerHTML+= '\n' + 
 
 localStorage.setItem('memory', document.getElementById('report').value)
 clear();
