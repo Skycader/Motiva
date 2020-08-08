@@ -44,6 +44,7 @@ opacity: 0.2;
 <p style='text-align: center' id = 'uptime'>Uptime: 0 hours 0 min 0 secs ago.</p>
 <p style='text-align: center' id = 'r'>Approximately time left 0 hours 0 min 0 sec.</p>
 <p style='text-align: center' id = 'percentage'>Overall percentage: 0%</p>
+<p style='text-align: center' id = 'avgtime'>WorkTime/AllTime: 0%</p>
 <div style='display: flex; flex-direction: row; align-items: center; justify-content: space-around'>
 
 <p>Speed</p><div id='metr' style='min-width: 5px; min-height: 150px;  border-bottom: 10px solid black; width: 5px; height: 150px; background-color: red; transform-origin: bottom center; transform: rotateZ(-90deg); transition-duration: 1s'></div>
@@ -617,6 +618,7 @@ document.getElementById('cur_speed').innerHTML = 'Current speed: ' + cur_speed +
 document.getElementById('sp').innerHTML = 'Average speed: ' + as + '%/h';
 document.getElementById('sp2').innerHTML = 'Overall speed: ' + as2 + '%/h';
 document.getElementById('percentage').innerHTML = 'Overall percentage: ' + percentage+ '%';
+document.getElementById('avgtime').innerHTML = 'Overall percentage: ' + ((worktime/s)*100)+ '%';
 
 document.getElementById('pp').innerHTML = '1% once in (AVERAGE) : ' + Math.floor(m/60/60/1000) + ' hours ' + ' ' + (Math.floor(m/60/1000)-60*Math.floor(m/60/60/1000)) + ' min' + ' ' + (Math.floor(m/1000)-60*Math.floor(m/60/1000)) + ' sec.'
 
@@ -647,7 +649,7 @@ document.getElementById('report').value+='\n'+document.getElementById('pp').inne
 document.getElementById('report').value+='\n'+document.getElementById('worktime').innerHTML;
 document.getElementById('report').innerHTML+= '\n'+document.getElementById('uptime').innerHTML;
 document.getElementById('report').innerHTML+= '\n' + 'Overall percentage: ' + percentage+ '%';
-
+document.getElementById('report').innerHTML+= '\n' + 'Overall percentage: ' + ((worktime/s)*100)+ '%';
 localStorage.setItem('memory', document.getElementById('report').value)
 clear();
 
