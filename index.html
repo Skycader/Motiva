@@ -43,7 +43,7 @@ opacity: 0.2;
 <p style='text-align: center' id = 'worktime'>Working time: 0 hours 0 min 0 secs ago.</p>
 <p style='text-align: center' id = 'uptime'>Uptime: 0 hours 0 min 0 secs ago.</p>
 <p style='text-align: center' id = 'r'>Approximately time left 0 hours 0 min 0 sec.</p>
-
+<p style='text-align: center' id = 'percentage'>Overall percentage: 0%</p>
 <div style='display: flex; flex-direction: row; align-items: center; justify-content: space-around'>
 
 <p>Speed</p><div id='metr' style='min-width: 5px; min-height: 150px;  border-bottom: 10px solid black; width: 5px; height: 150px; background-color: red; transform-origin: bottom center; transform: rotateZ(-90deg); transition-duration: 1s'></div>
@@ -487,6 +487,7 @@ clear();
 
  
  }
+ var percentage = 0;
  var lastuptime = Date.now();
  var uptime = 0;
  var reinit = 0;
@@ -512,7 +513,7 @@ if (a<100) {
  
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
 a = a + percent;
-
+percentage +=percent;
 
 r = Date.now()-time;
 r2 = Date.now()-lastuptime;
@@ -615,6 +616,7 @@ document.getElementById('ll').innerHTML = 'From the last 1% ' + Math.floor(r/60/
 document.getElementById('cur_speed').innerHTML = 'Current speed: ' + cur_speed + '%/h';
 document.getElementById('sp').innerHTML = 'Average speed: ' + as + '%/h';
 document.getElementById('sp2').innerHTML = 'Overall speed: ' + as2 + '%/h';
+document.getElementById('percentage').innerHTML = 'Overall percentage: ' + percentage+ '%';
 
 document.getElementById('pp').innerHTML = '1% once in (AVERAGE) : ' + Math.floor(m/60/60/1000) + ' hours ' + ' ' + (Math.floor(m/60/1000)-60*Math.floor(m/60/60/1000)) + ' min' + ' ' + (Math.floor(m/1000)-60*Math.floor(m/60/1000)) + ' sec.'
 
@@ -625,6 +627,7 @@ time = Date.now();
 lastuptime = Date.now();
 document.getElementById('pb').style.width = a + '%';
 document.getElementById('p').innerHTML = a + '%';
+document.getElementById('percentage').innerHTML = 'Overall percentage: ' + percentage + '%';
 
 s = Date.now();
 s = s - begining;
@@ -643,7 +646,7 @@ document.getElementById('report').value+='\n Overall speed: ' + as2 + '%/h';
 document.getElementById('report').value+='\n'+document.getElementById('pp').innerHTML
 document.getElementById('report').value+='\n'+document.getElementById('worktime').innerHTML;
 document.getElementById('report').innerHTML+= '\n'+document.getElementById('uptime').innerHTML;
-document.getElementById('report').innerHTML+= '\n' + 
+document.getElementById('report').innerHTML+= '\n' + 'Overall percentage: ' + percentage+ '%';
 
 localStorage.setItem('memory', document.getElementById('report').value)
 clear();
