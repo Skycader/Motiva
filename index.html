@@ -326,7 +326,8 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 <button onclick='document.getElementById("stat3").innerHTML = ""'>Clear stat3</button>
 <button onclick='document.getElementById("stat4").innerHTML = ""'>Clear stat4</button>
 <button onclick='document.getElementById("stat5").innerHTML = ""'>Clear stat5</button>
-<button onclick='document.getElementById("stat6").innerHTML = ""'>Clear stat6</button></center>
+<button onclick='document.getElementById("stat6").innerHTML = ""'>Clear stat6</button>
+<button onclick='clearclick()'>click = 0</button></center>
 <center><textarea placeholder='The report will be here' readonly id='report' style='margin: 25px; width: 70%; height: 200px'></textarea></center>
 
 <center><button id='copy' style='margin: 25px; width: 70%; height: 40px' onclick="download(document.getElementById('bb').innerHTML, document.getElementById('report').value)">Download the report</button></center>
@@ -365,7 +366,9 @@ cursor: pointer;
 }
 </style>
 <script type="text/javascript">
- 
+function clearclick(){
+click = 0;
+} 
 function avg(){
  
 var sum = 0;
@@ -690,7 +693,7 @@ plus(100);
  
 } else {
 a = 0;
-click = 0;
+ 
 //document.getElementById('status').innerHTML = 'Render is complete!'
 //document.getElementById('progress').innerHTML = 'Render is complete!'
 reinit = 1;
