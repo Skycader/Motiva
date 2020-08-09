@@ -8,7 +8,7 @@ overflow-x: hidden;
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <br>
 <center><h3 onclick='limit()'> CertainQuick </h3></center>
-<center><h5> FastBoot-NetReaper-RapidBuilder v 20.08.07.17.34 </h5></center>
+<center><h5> FastBoot-NetReaper-RapidBuilder v 2.9.0 [9th august]</h5></center>
 <p id='status' style='text-align: center' >Waiting for initialization...</p>
 <div style='margin: 30px' class="progress">
   <div id='pb' class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
@@ -56,7 +56,8 @@ opacity: 0.2;
 <br>
 <center><strong>CAUTION: CLICK +n% for EACH microWORK! If you did 1% of progress it could take 50% of actual work. count WORK! Pay for usage of microprocessor! </strong></center>
 <center>
- Start engine:  <input type="checkbox" name="option4" style="transform: scale(3); margin-left: 10px; margin-right: 30px;" value="a4">
+ Need download:  <input type="checkbox" id='needdownload' name="option4" style="transform: scale(3); margin-left: 10px; margin-right: 30px;" value="a4">
+ Start engine:  <input type="checkbox" id='enginestatus' name="option4" style="transform: scale(3); margin-left: 10px; margin-right: 30px;" value="a4">
 <button id='progress' class='opacity' style='margin: 25px; width: 20%; height: 40px' onclick="init()">+</button>
 <input type="number" style="height: 50px" id='donepercent' min="0" max="100" step="1" /> %</center>
 
@@ -69,6 +70,7 @@ opacity: 0.2;
 
 <input id='cpu' placeholder='cpu' type="number"  style="height: 50px" min="0" max="5" step="0.5" />
 <input id='pow' placeholder='pow' type="number"  style="height: 50px" min = "0" max="5" step="0.5" />
+<input id='motiva' placeholder='motiva' type="number"  style="height: 50px" min = "0" max="5" step="0.5" />
 <input id='temp' placeholder='temp' type="number" style="height: 50px"   min="0" max="5" step="0.5" />
 </center>
 
@@ -259,6 +261,7 @@ document.querySelectorAll('.spinning-loader')[1].animate([
  
 	
 	function lol(quality){
+	try {
 	if (quality < 1) {
 		quality = 1;
 	}
@@ -290,6 +293,7 @@ document.querySelectorAll('.spinning-loader')[1].animate([
        document.getElementById('render').appendChild(img2);
 	   
 	   document.querySelector('img').style.width = '100%';
+	   } catch(e) {console.log('lol has failed');}
 	}
 
     
@@ -305,13 +309,24 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 <p>Energy left</p>
 <center><div id='stat3' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
 <br>
+<p>Motivation level</p>
+<center><div id='stat5' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
+<br>
 <p>Temperature</p>
 <center><div id='stat4' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
+<br>
+
+<p>Made %</p>
+<center><div id='stat6' style='position: relative;   border: 1px solid black; width: 95%;  height: auto; justify-content: center; line-height: 30px; margin: 0; padding: 0;  min-height: 30px; display: flex; flex-direction: row; flex-wrap: wrap;'>
+ 
+</div></center>
 <br>
 <center><button onclick='document.getElementById("stat").innerHTML = ""'>Clear speed statistics</button>
 <button onclick='document.getElementById("stat2").innerHTML = ""'>Clear stat2</button>
 <button onclick='document.getElementById("stat3").innerHTML = ""'>Clear stat3</button>
-<button onclick='document.getElementById("stat4").innerHTML = ""'>Clear stat4</button></center>
+<button onclick='document.getElementById("stat4").innerHTML = ""'>Clear stat4</button>
+<button onclick='document.getElementById("stat5").innerHTML = ""'>Clear stat5</button>
+<button onclick='document.getElementById("stat6").innerHTML = ""'>Clear stat6</button></center>
 <center><textarea placeholder='The report will be here' readonly id='report' style='margin: 25px; width: 70%; height: 200px'></textarea></center>
 
 <center><button id='copy' style='margin: 25px; width: 70%; height: 40px' onclick="download(document.getElementById('bb').innerHTML, document.getElementById('report').value)">Download the report</button></center>
@@ -392,6 +407,7 @@ document.querySelector('#tasks').value = '';
 document.querySelector('#donepercent').value = '';
 document.querySelector('#cpu').value = '';
 document.querySelector('#pow').value = '';
+document.querySelector('#motiva').value = '';
 document.querySelector('#temp').value = '';
 
 }
@@ -569,6 +585,13 @@ document.getElementById('stat3').insertAdjacentHTML('beforeend', "<div id='"+a+"
  document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done2+"</div>");
 
 document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1;   border: 2px solid darkred; background-color: red; position: absolute; left: "+click*1+"%; bottom:  0px;   width: "+ 1.5+"%; height: "+document.getElementById('temp').value*20+"%'></div>");
+
+ document.getElementById('stat5').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done2+"</div>");
+
+document.getElementById('stat5').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1;   border: 2px solid darkred; background-color: orange; position: absolute; left: "+click*1+"%; bottom:  0px;   width: "+ 1.5+"%; height: "+document.getElementById('motiva').value*20+"%'></div>");
+
+document.getElementById('stat6').insertAdjacentHTML('beforeend', "<img style='width: 100px' src='"+img1.src+"'/>");
+
 click++;
   quality = Math.floor(100/click*5-4)
 if (click >=80) {
@@ -583,10 +606,14 @@ if (quality<1) {
 quality = 1;
 }
 console.log('lets try');
+if ((!needdownload)&&(i==percent)){
+lol(quality);
+}
 try {
+if (needdownload) {
 lol(quality);
 console.log('drawed');
-if (needdownload) {
+
 var link = document.createElement('a');
 link.href = document.querySelector('#render img').src;
 link.download =  click;
@@ -598,6 +625,7 @@ document.body.removeChild(link);
 ///
 
 }
+ 
 }
 
  
@@ -641,7 +669,7 @@ document.getElementById('worktime').innerHTML = 'Working for ' + Math.floor(work
 document.getElementById('uptime').innerHTML = 'Uptime for ' + Math.floor(uptime/60/60/1000) + ' hours ' + ' ' + (Math.floor(uptime/60/1000)-60*Math.floor(uptime/60/60/1000)) + ' min' + ' ' + (Math.floor(uptime/1000)-60*Math.floor(uptime/60/1000)) + ' sec ago.';
 
 document.getElementById('avg').innerHTML = 'Graph speed: ' + avg() + '%/h.';
-document.getElementById('report').value = document.getElementById('report').value + '\n' + '>>> ' +a + '% Tasks: ' + document.getElementById('tasks').value  + '. \n Time: last: ' + (Math.floor(l/1000)-60*Math.floor(l/60/1000)) + 'sec; ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ' Passed: ' + Math.floor(s/60/60/1000) + ' hours' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec. '+'Approximately left: ' + Math.floor(r/60/60/1000) + ' hours' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.' + ' CPU: ' + document.getElementById("cpu").value + ' Power: ' + document.getElementById("pow").value + ' Temp: ' + document.getElementById("temp").value;
+document.getElementById('report').value = document.getElementById('report').value + '\n' + '>>> ' +a + '% Tasks: ' + document.getElementById('tasks').value  + '. \n Time: last: ' + (Math.floor(l/1000)-60*Math.floor(l/60/1000)) + 'sec; ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ' Passed: ' + Math.floor(s/60/60/1000) + ' hours' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec. '+'Approximately left: ' + Math.floor(r/60/60/1000) + ' hours' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.' + ' CPU: ' + document.getElementById("cpu").value + ' Power: ' + document.getElementById("pow").value + ' Temp: ' + document.getElementById("temp").value + ' Motiva: ' + document.getElementById("motiva").value;
 document.getElementById('report').value += '\n It takes ' + made + ' sec for 1%';
 document.getElementById('report').value+= '\n' + document.getElementById('ll').innerHTML;
 document.getElementById('report').value+=' \n Current speed: ' + cur_speed + '%/h';
@@ -651,7 +679,7 @@ document.getElementById('report').value+='\n'+document.getElementById('pp').inne
 document.getElementById('report').value+='\n'+document.getElementById('worktime').innerHTML;
 document.getElementById('report').innerHTML+= '\n'+document.getElementById('uptime').innerHTML;
 document.getElementById('report').innerHTML+= '\n' + 'Overall percentage: ' + percentage+ '%';
-document.getElementById('report').innerHTML+= '\n' + 'Overall percentage: ' + ((worktime/s)*100)+ '%';
+document.getElementById('report').innerHTML+= '\n' + 'WorkTime/AllTime: ' + ((worktime/s)*100)+ '%';
 localStorage.setItem('memory', document.getElementById('report').value)
 clear();
 
@@ -681,23 +709,35 @@ function myFunction() {
   document.execCommand("copy");
 }
 
-var checkbox = document.querySelector("input[type=checkbox]");
+var checkbox = document.querySelector("#enginestatus");
 var engine = false;
 checkbox.addEventListener( 'change', function() {
     if(this.checked) {
        document.querySelector('#startup').play();
+	   
 	   uptime = 0;
 	    clear();
 		plus();
 	   engine = true;
 	   document.querySelector('#progress').classList.toggle('opacity');
     } else {
+		 
         document.querySelector('#engineoff').play();
 		 clear();
 		 engine = true;
 		plus(); 
 		engine = false;
 		document.querySelector('#progress').classList.toggle('opacity');
+    }
+});
+
+var checkbox2 = document.querySelector("#needdownload");
+ 
+checkbox2.addEventListener( 'change', function() {
+    if(this.checked) {
+       needdownload = true;
+    } else {
+        needdownload = false;
     }
 });
 </script>
