@@ -3,6 +3,8 @@ html,body {
 overflow-x: hidden;
 }
 </style>
+<script src='https://html2canvas.hertzen.com/dist/html2canvas.min.js'></script>
+<meta charset="utf-8">
 <title id='title'>CertainQuick - FastBoot&NetReaper&ReapidBuilder</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -28,7 +30,7 @@ opacity: 0.2;
 
 
 <br>
-
+<div id='saveme'>
 <p style='text-align: center' id = 'p'>0%</p>
 <p style='text-align: center' id = 'bb'>Not started</p>
 <p style='text-align: center' id = 'li'>Before shutdown: not started</p>
@@ -45,6 +47,7 @@ opacity: 0.2;
 <p style='text-align: center' id = 'r'>Approximately time left 0 hours 0 min 0 sec.</p>
 <p style='text-align: center' id = 'percentage'>Overall percentage: 0%</p>
 <p style='text-align: center' id = 'avgtime'>WorkTime/AllTime: 0%</p>
+</div>
 <div style='display: flex; flex-direction: row; align-items: center; justify-content: space-around'>
 
 <p>Speed</p><div id='metr' style='min-width: 5px; min-height: 150px;  border-bottom: 10px solid black; width: 5px; height: 150px; background-color: red; transform-origin: bottom center; transform: rotateZ(-90deg); transition-duration: 1s'></div>
@@ -316,10 +319,11 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 <center><div id='stat4' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
 <br>
 
-<p>Made %</p>
+<div class='made' id='made'>
+<p onclick='bringback()'>Made %</p>
 <center><div id='stat6' style='position: relative;   border: 1px solid black; width: 95%;  height: auto; justify-content: center; line-height: 30px; margin: 0; padding: 0;  min-height: 30px; display: flex; flex-direction: row; flex-wrap: wrap;'>
  
-</div></center>
+</div></center></div>
 <br>
 <center><button onclick='document.getElementById("stat").innerHTML = ""'>Clear speed statistics</button>
 <button onclick='document.getElementById("stat2").innerHTML = ""'>Clear stat2</button>
@@ -327,7 +331,10 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 <button onclick='document.getElementById("stat4").innerHTML = ""'>Clear stat4</button>
 <button onclick='document.getElementById("stat5").innerHTML = ""'>Clear stat5</button>
 <button onclick='document.getElementById("stat6").innerHTML = ""'>Clear stat6</button>
-<button onclick='clearclick()'>click = 0</button></center>
+
+
+<button onclick='clearclick()'>click = 0</button>
+<button onclick='saveit()'>Take a screenshot</button></center>
 <center><textarea placeholder='The report will be here' readonly id='report' style='margin: 25px; width: 70%; height: 200px'></textarea></center>
 
 <center><button id='copy' style='margin: 25px; width: 70%; height: 40px' onclick="download(document.getElementById('bb').innerHTML, document.getElementById('report').value)">Download the report</button></center>
@@ -365,7 +372,20 @@ background-color: red;
 cursor: pointer;
 }
 </style>
+
 <script type="text/javascript">
+var save = '';
+function saveit(){
+save = document.querySelector('html').innerHTML;
+document.querySelector('html').innerHTML = document.querySelector('.made').innerHTML;
+html2canvas(document.querySelector('html')).then(canvas => {
+    document.body.appendChild(canvas)
+});
+ 
+}
+function bringback(){
+document.querySelector('html').innerHTML = save;
+}
 function clearclick(){
 click = 0;
 } 
@@ -483,7 +503,13 @@ function init(){
 
 initDraw(document.getElementById('tasks').value);
 console.log(document.getElementById('tasks').value);
+setTimeout(function(){
+lol(1);
  
+superlink = document.querySelector('#render img').src;
+document.querySelector('img').remove();
+},500);
+reinit = 0;
  
 document.getElementById('bb').innerHTML = Date();
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
@@ -512,14 +538,21 @@ clear();
  var uptime = 0;
  var reinit = 0;
 var quality = 50;
+var superlink = '';
 function plus(percent){
  
 if (reinit == 1) {
 initDraw(document.getElementById('tasks').value);
- 
-reinit = 0;
+
 a = -1;
 click = -1;
+setTimeout(function(){
+lol(1);
+ 
+superlink = document.querySelector('#render img').src;
+document.querySelector('img').remove();
+},500);
+reinit = 0;
 };
 if (percent == 100) {
 document.querySelector('#donePercent').value = 1;	
@@ -570,9 +603,11 @@ cur_speed = 0;
 }
 console.log(r/1000);
  
-
+var tasks = '';
  
  function stat(percent){
+ tasks = document.querySelector('#tasks').value
+ document.querySelector('#tasks').value+=', ' + cur_speed;
  for (var i=1; i<=percent; i++) {
  
   var done = document.getElementById('tasks').value.slice(0,25) + '...';
@@ -593,7 +628,8 @@ document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"
 
 document.getElementById('stat5').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1;   border: 2px solid darkred; background-color: orange; position: absolute; left: "+click*1+"%; bottom:  0px;   width: "+ 1.5+"%; height: "+document.getElementById('motiva').value*20+"%'></div>");
 
-document.getElementById('stat6').insertAdjacentHTML('beforeend', "<img style='width: 100px' src='"+img1.src+"'/>");
+document.getElementById('stat6').insertAdjacentHTML('beforeend', "<img style='width: 150px' src='"+superlink+"'/><p>"+document.querySelector('#tasks').value+"</p>");
+document.querySelector('#tasks').value = '';
 
 click++;
   quality = Math.floor(100/click*5-4)
@@ -628,7 +664,7 @@ document.body.removeChild(link);
 ///
 
 }
- 
+  document.querySelector('#tasks').value = tasks
 }
 
  
@@ -698,7 +734,7 @@ a = 0;
 //document.getElementById('progress').innerHTML = 'Render is complete!'
 reinit = 1;
 alert('Render has been completed, if you want to continue: click + again, but make sure you set another link.');
-
+ 
 
  
 
