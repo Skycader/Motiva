@@ -500,14 +500,16 @@ var s = 0;
 var made = 0;
 var time = Date.now()
 var begining = Date.now()
+var needinit = false;
 function init(){
 
 initDraw(document.getElementById('tasks').value);
 console.log(document.getElementById('tasks').value);
 setTimeout(function(){
 lol(1);
- 
+needinit = true;
 superlink = document.querySelector('#render img').src;
+
 document.querySelector('img').remove();
 },500);
 reinit = 0;
@@ -551,6 +553,8 @@ setTimeout(function(){
 lol(1);
  
 superlink = document.querySelector('#render img').src;
+needinit = true;
+
 document.querySelector('img').remove();
 },500);
 reinit = 0;
@@ -628,8 +632,12 @@ document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"
  document.getElementById('stat5').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done2+"</div>");
 
 document.getElementById('stat5').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1;   border: 2px solid darkred; background-color: orange; position: absolute; left: "+click*1+"%; bottom:  0px;   width: "+ 1.5+"%; height: "+document.getElementById('motiva').value*20+"%'></div>");
-
+ 
 document.getElementById('stat6').insertAdjacentHTML('beforeend', "<img style='width: 150px' src='"+superlink+"'/><p>"+document.querySelector('#tasks').value+"</p>");
+if (needinit) {
+document.getElementById('stat6').insertAdjacentHTML('beforeend', "<img style='width: 150px' src='"+superlink+"'/>");
+needinit = false;
+}
 document.querySelector('#tasks').value = '';
 
 click++;
