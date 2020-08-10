@@ -303,6 +303,7 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 
   </script>
   <br><br><br> 
+  <div class='made' id='made'>
   <p> Speed </p>
 <center><div id='stat' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
 <br>
@@ -319,7 +320,7 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 <center><div id='stat4' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
 <br>
 
-<div class='made' id='made'>
+
 <p onclick='bringback()'>Made %</p>
 <center><div id='stat6' style='position: relative;   border: 1px solid black; width: 95%;  height: auto; justify-content: center; line-height: 30px; margin: 0; padding: 0;  min-height: 30px; display: flex; flex-direction: row; flex-wrap: wrap;'>
  
@@ -577,7 +578,7 @@ uptime +=r2;
 made = r/1000/percent;
 l = r;
 s = s + r;
-m = worktime/(a+percent);
+m = worktime/(percentage+percent);
 m2 = s/(a+percent);
 //m = worktime/(a+percent);
 as = 3600/((Math.floor(m/1000)));
@@ -607,7 +608,7 @@ var tasks = '';
  
  function stat(percent){
  tasks = document.querySelector('#tasks').value
- document.querySelector('#tasks').value+=', ' + cur_speed;
+ document.querySelector('#tasks').value+=', ' + cur_speed + ' ' + (new Date().getMonth()+1) + ' ' + new Date().getDate() + 'th ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
  for (var i=1; i<=percent; i++) {
  
   var done = document.getElementById('tasks').value.slice(0,25) + '...';
