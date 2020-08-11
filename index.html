@@ -1,7 +1,5 @@
 <style>
-html,body {
-overflow-x: hidden;
-}
+ 
 </style>
 <script src='https://html2canvas.hertzen.com/dist/html2canvas.min.js'></script>
 <meta charset="utf-8">
@@ -305,7 +303,7 @@ document.querySelectorAll('.spinning-loader')[1].animate([
   <br><br><br> 
   <div class='made' id='made'>
   <p> Speed </p>
-<center><div id='stat' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
+<center><div id='stat' style='position: relative;   border: 1px solid black; width: 95%; height: 300px'></div></center>
 <br>
 <p>Processor load</p>
 <center><div id='stat2' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
@@ -335,7 +333,12 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 
 
 <button onclick='clearclick()'>click = 0</button>
-<button onclick='saveit()'>Take a screenshot</button></center>
+<button onclick='saveit()'>Take a screenshot</button>
+
+<button onclick='saveprogress()'>Save progress</button>
+<button onclick='load()'>Load progress</button>
+
+<button onclick='eraseprogress()'>Load progress</button></center>
 <center><textarea placeholder='The report will be here' readonly id='report' style='margin: 25px; width: 70%; height: 200px'></textarea></center>
 
 <center><button id='copy' style='margin: 25px; width: 70%; height: 40px' onclick="download(document.getElementById('bb').innerHTML, document.getElementById('report').value)">Download the report</button></center>
@@ -410,6 +413,10 @@ function download(filename, text) {
   document.body.removeChild(element);
   localStorage.setItem('memory', '')
   document.getElementById('report').value = '';
+}
+
+function eraseprogress(){
+localStorage.setItem('progress', '')
 }
 
 </script>
@@ -488,6 +495,10 @@ var a =  (1-(1*document.getElementById('go1').value/100))/2;
 }
 
 document.getElementById('report').value = localStorage.getItem('memory');
+
+function load(){
+document.querySelector('html').innerHTML = localStorage.getItem('progress');
+}
 var methods = ['Rendering', 'Processing','Compiling','Downloading','Packing','Unpacking','Installing','Uploading'];
 var cur = 0;
 document.getElementById('status').onclick = function(){if (cur<=6) {cur++}else {cur=0}; document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';};
@@ -548,7 +559,7 @@ if (reinit == 1) {
 initDraw(document.getElementById('tasks').value);
 
 a = -1;
-click = -1;
+ 
 setTimeout(function(){
 lol(1);
  
@@ -617,21 +628,21 @@ var tasks = '';
  
   var done = document.getElementById('tasks').value.slice(0,25) + '...';
  var done2 = Date().slice(0,24)  
- document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done+"</div>");
-document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;   opacity: 1; border: 2px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  background-color: green; width: "+ 1.5+"%; height: "+cur_speed+"px'></div>");
- document.getElementById('stat2').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done2+"</div>");
+ document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*20+"px; bottom:  0px;  width: "+ 30+"px; height: "+300+"px'>"+done+"</div>");
+document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;   opacity: 1; border: 2px solid darkgreen; position: absolute; left: "+click*20+"px; bottom:  0px;  background-color: green; width: "+ 30+"px; height: "+cur_speed+"px'></div>");
+ document.getElementById('stat2').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*20+"px; bottom:  0px;  width: "+ 30+"px; height: "+300+"px'>"+done2+"</div>");
 
-document.getElementById('stat2').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='cpu'style='float: left; opacity: 1;  border: 2px solid darkblue; background-color: blue; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+document.getElementById('cpu').value*20+"%'></div>");
- document.getElementById('stat3').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done2+"</div>");
+document.getElementById('stat2').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='cpu'style='float: left; opacity: 1;  border: 2px solid darkblue; background-color: blue; position: absolute; left: "+click*20+"px; bottom:  0px;  width: "+ 30+"px; height: "+document.getElementById('cpu').value*20+"%'></div>");
+ document.getElementById('stat3').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*20+"px; bottom:  0px;  width: "+ 30+"px; height: "+300+"px'>"+done2+"</div>");
 
-document.getElementById('stat3').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='power'style='float: left; opacity: 1;  border: 2px solid darkorange; background-color: yellow; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+document.getElementById('pow').value*20+"%'></div>");
- document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done2+"</div>");
+document.getElementById('stat3').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='power'style='float: left; opacity: 1;  border: 2px solid darkorange; background-color: yellow; position: absolute; left: "+click*20+"px; bottom:  0px;  width: "+ 30+"px; height: "+document.getElementById('pow').value*20+"%'></div>");
+ document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*20+"px; bottom:  0px;  width: "+ 30+"px; height: "+300+"px'>"+done2+"</div>");
 
-document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1;   border: 2px solid darkred; background-color: red; position: absolute; left: "+click*1+"%; bottom:  0px;   width: "+ 1.5+"%; height: "+document.getElementById('temp').value*20+"%'></div>");
+document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1;   border: 2px solid darkred; background-color: red; position: absolute; left: "+click*20+"px; bottom:  0px;   width: "+ 30+"px; height: "+document.getElementById('temp').value*20+"%'></div>");
 
- document.getElementById('stat5').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*1+"%; bottom:  0px;  width: "+ 1.5+"%; height: "+300+"px'>"+done2+"</div>");
+ document.getElementById('stat5').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*20+"px; bottom:  0px;  width: "+ 30+"px; height: "+300+"px'>"+done2+"</div>");
 
-document.getElementById('stat5').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1;   border: 2px solid darkred; background-color: orange; position: absolute; left: "+click*1+"%; bottom:  0px;   width: "+ 1.5+"%; height: "+document.getElementById('motiva').value*20+"%'></div>");
+document.getElementById('stat5').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1;   border: 2px solid darkred; background-color: orange; position: absolute; left: "+click*20+"px; bottom:  0px;   width: "+ 30+"px; height: "+document.getElementById('motiva').value*20+"%'></div>");
  
 document.getElementById('stat6').insertAdjacentHTML('beforeend', "<p>"+document.querySelector('#tasks').value+"</p><img style='width: 150px' src='"+superlink+"'/>");
  
@@ -644,7 +655,7 @@ quality = 2;
 }
 if (click >=100) {
 quality = 1;
-click = 100;
+ 
 setSpeed(0,0);
 }
 if (quality<1) {
@@ -746,7 +757,10 @@ alert('Render has been completed, if you want to continue: click + again, but ma
 
 }
 }}
-
+function saveprogress(){
+localStorage.setItem('progress', document.querySelector('html').innerHTML)
+localStorage.setItem('variables', window)
+}
 function myFunction() {
   var copyText = document.getElementById("report");
   copyText.select();
