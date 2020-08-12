@@ -519,7 +519,7 @@ var a =  (1-(1*document.getElementById('go1').value/100))/2;
 }
 
 document.getElementById('report').value = localStorage.getItem('memory');
-if (localStorage.getItem('progress').length>0) {
+if (localStorage.getItem('progress') !== null) {
 alert('restoring progress...');
 document.querySelector('html').innerHTML = localStorage.getItem('progress');
 }
