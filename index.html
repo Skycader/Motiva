@@ -1,6 +1,8 @@
 <style>
  
 </style>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <script src='https://html2canvas.hertzen.com/dist/html2canvas.min.js'></script>
 <meta charset="utf-8">
 <title id='title'>CertainQuick - FastBoot&NetReaper&ReapidBuilder</title>
@@ -8,7 +10,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <br>
 <center><h3 onclick='limit()'> CertainQuick </h3></center>
-<center><h5> FastBoot-NetReaper-RapidBuilder v 3.0.0 [11th august]</h5></center>
+<center><h5> FastBoot-NetReaper-RapidBuilder v 3.4.5 [11th august]</h5></center>
 <p id='status' style='text-align: center' >Waiting for initialization...</p>
 <div style='margin: 30px' class="progress">
   <div id='pb' class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
@@ -57,7 +59,7 @@ opacity: 0.2;
 <br>
 <center><strong>CAUTION: CLICK +n% for EACH microWORK! If you did 1% of progress it could take 50% of actual work. count WORK! Pay for usage of microprocessor! </strong></center>
 <center>
- Need download:  <input type="checkbox" id='needdownload' name="option4" style="transform: scale(3); margin-left: 10px; margin-right: 30px;" value="a4">
+ 
  Start engine:  <input type="checkbox" id='enginestatus' name="option4" style="transform: scale(3); margin-left: 10px; margin-right: 30px;" value="a4">
 <button id='progress' class='opacity' style='margin: 25px; width: 20%; height: 40px' onclick="init()">+</button>
 <input type="number" style="height: 50px" id='donepercent' min="0" max="100" step="1" /> %</center>
@@ -253,7 +255,11 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 })
 }
   function initDraw(imglink){
+   
+  if (imglink.startsWith('http')) {
+   
   img1.src = imglink;
+  }
   }
     let c = document.createElement("canvas");
     ctx = c.getContext('2d');
@@ -294,7 +300,7 @@ document.querySelectorAll('.spinning-loader')[1].animate([
        document.getElementById('render').appendChild(img2);
 	   
 	   document.querySelector('img').style.width = '100%';
-	   } catch(e) {console.log('lol has failed');}
+	   } catch(e) {console.log('lol has failed'+e);}
 	}
 
     
@@ -309,7 +315,11 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 <center><div id='stat2' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
 <br>
 <p>Energy left</p>
-<center><div id='stat3' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
+<center><div id='stat3' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'>
+
+ 
+
+</div></center>
 <br>
 <p>Motivation level</p>
 <center><div id='stat5' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
@@ -338,7 +348,7 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 <button onclick='saveprogress()'>Save progress</button>
 <button onclick='load()'>Load progress</button>
 
-<button onclick='eraseprogress()'>Load progress</button></center>
+<button onclick='eraseprogress()'>Erase progress</button></center>
 <center><textarea placeholder='The report will be here' readonly id='report' style='margin: 25px; width: 70%; height: 200px'></textarea></center>
 
 <center><button id='copy' style='margin: 25px; width: 70%; height: 40px' onclick="download(document.getElementById('bb').innerHTML, document.getElementById('report').value)">Download the report</button></center>
@@ -380,12 +390,22 @@ cursor: pointer;
 <script type="text/javascript">
 var save = '';
 function saveit(){
+setTimeout(function(){
+lol(1);
+superlink = document.querySelector('#render img').src;
+
+document.querySelector('img').remove();
+
+for (var i = 0; i<document.querySelectorAll('.factory').length; i++) {
+	document.querySelectorAll('.factory')[i].src = superlink;
+}
 save = document.querySelector('html').innerHTML;
 document.querySelector('html').innerHTML = document.querySelector('.made').innerHTML;
 html2canvas(document.querySelector('html')).then(canvas => {
     document.body.appendChild(canvas)
 });
- 
+},500);
+
 }
 function bringback(){
 document.querySelector('html').innerHTML = save;
@@ -416,7 +436,11 @@ function download(filename, text) {
 }
 
 function eraseprogress(){
-localStorage.setItem('progress', '')
+var confir  = confirm("Ersa all?") 
+if (confir) {
+window.localStorage.clear();
+
+}
 }
 
 </script>
@@ -495,9 +519,60 @@ var a =  (1-(1*document.getElementById('go1').value/100))/2;
 }
 
 document.getElementById('report').value = localStorage.getItem('memory');
-
+if (localStorage.getItem('progress').length>0) {
+alert('restoring progress...');
+document.querySelector('html').innerHTML = localStorage.getItem('progress');
+}
 function load(){
 document.querySelector('html').innerHTML = localStorage.getItem('progress');
+document.querySelector('#progress').classList.add('opacity');
+a = 1*localStorage.getItem('avar')
+click = 1*localStorage.getItem('click')
+
+begining = 1*localStorage.getItem('begining')
+worktime = 1*localStorage.getItem('worktime')
+percentage = 1*localStorage.getItem('percentage')
+ reinit = 1*localStorage.getItem('reinit')
+
+imglink = localStorage.getItem('img1.src')
+
+initDraw(imglink);
+quality = Math.floor(100/a*5-4)
+if (a >=80) {
+quality = 2;
+}
+if (a >=100) {
+quality = 1;
+ 
+setSpeed(0,0);
+}
+if (quality<1) {
+quality = 1;
+}
+
+checkbox = document.querySelector("#enginestatus");
+engine = false;
+checkbox.addEventListener( 'change', function() {
+    if(this.checked) {
+       document.querySelector('#startup').play();
+	   
+	   uptime = 0;
+	    clear();
+		plus();
+	   engine = true;
+	   document.querySelector('#progress').classList.remove('opacity');
+    } else {
+		 
+        document.querySelector('#engineoff').play();
+		 clear();
+		 engine = true;
+		plus(); 
+		engine = false;
+		document.querySelector('#progress').classList.add('opacity');
+    }
+});
+
+
 }
 var methods = ['Rendering', 'Processing','Compiling','Downloading','Packing','Unpacking','Installing','Uploading'];
 var cur = 0;
@@ -516,14 +591,8 @@ function init(){
 
 initDraw(document.getElementById('tasks').value);
 console.log(document.getElementById('tasks').value);
-setTimeout(function(){
-lol(1);
-document.getElementById('stat6').insertAdjacentHTML('beforeend', "<p>"+document.querySelector('#tasks').value+"</p><img style='width: 150px' src='"+superlink+"'/>");
-superlink = document.querySelector('#render img').src;
 
-document.querySelector('img').remove();
-},500);
-reinit = 0;
+ 
  
 document.getElementById('bb').innerHTML = Date();
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
@@ -555,19 +624,13 @@ var quality = 50;
 var superlink = '';
 function plus(percent){
  
-if (reinit == 1) {
+if ((reinit == 1)&&(percent>0)) {
 initDraw(document.getElementById('tasks').value);
 
 a = -1;
- 
-setTimeout(function(){
-lol(1);
- 
-superlink = document.querySelector('#render img').src;
-document.getElementById('stat6').insertAdjacentHTML('beforeend', "<p>"+document.querySelector('#tasks').value+"</p><img style='width: 150px' src='"+superlink+"'/>");
+ document.getElementById('stat6').insertAdjacentHTML('beforeend', "<p>"+document.querySelector('#tasks').value+"</p><img style='width: 150px' src='"+img1.src+"'/>");
 
-document.querySelector('img').remove();
-},500);
+ 
 reinit = 0;
 };
 if (percent == 100) {
@@ -644,16 +707,16 @@ document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"
 
 document.getElementById('stat5').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1;   border: 2px solid darkred; background-color: orange; position: absolute; left: "+click*20+"px; bottom:  0px;   width: "+ 30+"px; height: "+document.getElementById('motiva').value*20+"%'></div>");
  
-document.getElementById('stat6').insertAdjacentHTML('beforeend', "<p>"+document.querySelector('#tasks').value+"</p><img style='width: 150px' src='"+superlink+"'/>");
+document.getElementById('stat6').insertAdjacentHTML('beforeend', "<p>"+document.querySelector('#tasks').value+"</p><img class='factory' style='width: 150px' src='"+img1.src+"'/>");
  
 document.querySelector('#tasks').value = '';
 
 click++;
-  quality = Math.floor(100/click*5-4)
-if (click >=80) {
+  quality = Math.floor(100/a*5-4)
+if (a >=80) {
 quality = 2;
 }
-if (click >=100) {
+if (a >=100) {
 quality = 1;
  
 setSpeed(0,0);
@@ -756,10 +819,20 @@ alert('Render has been completed, if you want to continue: click + again, but ma
  
 
 }
-}}
+}
+
+saveprogress();
+}
 function saveprogress(){
 localStorage.setItem('progress', document.querySelector('html').innerHTML)
-localStorage.setItem('variables', window)
+localStorage.setItem('avar', a)
+localStorage.setItem('click', click)
+localStorage.setItem('begining', begining)
+localStorage.setItem('worktime', worktime)
+localStorage.setItem('percentage', percentage)
+localStorage.setItem('reinit', reinit) 
+
+localStorage.setItem('img1.src', img1.src)
 }
 function myFunction() {
   var copyText = document.getElementById("report");
@@ -778,7 +851,7 @@ checkbox.addEventListener( 'change', function() {
 	    clear();
 		plus();
 	   engine = true;
-	   document.querySelector('#progress').classList.toggle('opacity');
+	   document.querySelector('#progress').classList.remove('opacity');
     } else {
 		 
         document.querySelector('#engineoff').play();
@@ -786,7 +859,7 @@ checkbox.addEventListener( 'change', function() {
 		 engine = true;
 		plus(); 
 		engine = false;
-		document.querySelector('#progress').classList.toggle('opacity');
+		document.querySelector('#progress').classList.add('opacity');
     }
 });
 
