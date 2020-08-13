@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <br>
 <center><h3 onclick='limit()'> CertainQuick </h3></center>
-<center><h5> FastBoot-NetReaper-RapidBuilder v 3.4.5 [11th august]</h5></center>
+<center><h5> FastBoot-NetReaper-RapidBuilder v 4.0.0 [13th august]</h5></center>
 <p id='status' style='text-align: center' >Waiting for initialization...</p>
 <div style='margin: 30px' class="progress">
   <div id='pb' class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
@@ -31,7 +31,7 @@ opacity: 0.2;
 
 <br>
 <div id='saveme'>
-<p style='text-align: center' id = 'p'>0%</p>
+<div style='display: flex; justify-content: center; '><div style=' hight: 50px;  display: flex; flex-direction: row; padding: 0 20px 0 20px; justify-content: center;   cursor: pointer; margin-bottom: 10px;'> <div    id = 'p'>0 </div><div>---></div> <div id='goal'>?</div> </div><div style='cursor: pointer' onclick='makegoal()'>✎</div></div>
 <p style='text-align: center' id = 'bb'>Not started</p>
 <p style='text-align: center' id = 'li'>Before shutdown: not started</p>
 <p style='text-align: center' id = 'made'>It takes n sec for 1%.</p>
@@ -62,9 +62,10 @@ opacity: 0.2;
  
  Start engine:  <input type="checkbox" id='enginestatus' name="option4" style="transform: scale(3); margin-left: 10px; margin-right: 30px;" value="a4">
 <button id='progress' class='opacity' style='margin: 25px; width: 20%; height: 40px' onclick="init()">+</button>
-<input type="number" style="height: 50px" id='donepercent' min="0" max="100" step="1" /> %</center>
+<input type="number" style="height: 50px" id='donepercent' min="0" max="100" step="1" /> %
+ </center>
 
-<center><input id='tasks' placeholder='Tasks'  style="width: 50%; height: 50px"  />
+<center><input id='tasks' placeholder='What were you doing goes here'  style="width: 50%; height: 50px"  />
 
 <!--
 <textarea placeholder='Time given (seconds) for each 1%' id='limit' style='margin: 5px; width: 5%; height: 50px'></textarea>
@@ -77,6 +78,11 @@ opacity: 0.2;
 <input id='temp' placeholder='temp' type="number" style="height: 50px"   min="0" max="5" step="0.5" />
 </center>
 
+<br>
+<center><p> Put, modify and remove tasks here </p></center>
+<center><button onclick='addtask()' style='width: calc(20% + 865px); height: 50px'>+</button></center><br>
+<center id='taskfield'> </center>
+<br>
 <!--
 <center > 
 
@@ -220,6 +226,18 @@ display: none;
 }
 </style>
   <script>
+  var goal = 0;
+  var tf = [];
+var tf2 = [];
+var tf3 = [];
+var tf4 = [];
+  function makegoal(){
+  goal = prompt('Set the goal');
+  document.querySelector('#goal').innerHTML = goal;
+  }
+  
+  
+  
   var needdownload = false;
   var worktime = 0;
  
@@ -273,7 +291,7 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 		quality = 1;
 	}
 	try {
-	document.querySelector('img').remove();
+	document.querySelector('#render img').remove();
 	} catch(e) {console.log('could not delete')}
 
       w = img1.width;
@@ -299,7 +317,7 @@ document.querySelectorAll('.spinning-loader')[1].animate([
       img2.width = 800;
        document.getElementById('render').appendChild(img2);
 	   
-	   document.querySelector('img').style.width = '100%';
+	   document.querySelector('#render img').style.width = '100%';
 	   } catch(e) {console.log('lol has failed'+e);}
 	}
 
@@ -349,7 +367,7 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 <button onclick='load()'>Load progress</button>
 
 <button onclick='eraseprogress()'>Erase progress</button></center>
-<center><textarea placeholder='The report will be here' readonly id='report' style='margin: 25px; width: 70%; height: 200px'></textarea></center>
+<center><textarea placeholder='The report will be here'   id='report' style='margin: 25px; width: 70%; height: 200px'></textarea></center>
 
 <center><button id='copy' style='margin: 25px; width: 70%; height: 40px' onclick="download(document.getElementById('bb').innerHTML, document.getElementById('report').value)">Download the report</button></center>
 
@@ -518,15 +536,34 @@ var a =  (1-(1*document.getElementById('go1').value/100))/2;
 	*/
 }
 
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
+
+
 document.getElementById('report').value = localStorage.getItem('memory');
 if (localStorage.getItem('progress') !== null) {
-alert('restoring progress...');
-document.querySelector('html').innerHTML = localStorage.getItem('progress');
+console.log('restoring progress...');
+load();
+ 
 }
 function load(){
+
 document.querySelector('html').innerHTML = localStorage.getItem('progress');
+document.querySelector('#report').value = localStorage.getItem('memory')
+
+goal = localStorage.getItem('goal');
+  document.querySelector('#goal').innerHTML = goal;
+  
+
+methods = localStorage.getItem('methods')
+cur = localStorage.getItem('cur')
+
 document.querySelector('#progress').classList.add('opacity');
 a = 1*localStorage.getItem('avar')
+percentage = 1*localStorage.getItem('percentage')
 click = 1*localStorage.getItem('click')
 
 begining = 1*localStorage.getItem('begining')
@@ -571,6 +608,51 @@ checkbox.addEventListener( 'change', function() {
 		document.querySelector('#progress').classList.add('opacity');
     }
 });
+
+
+tf = localStorage.getItem('tf').split(',');
+ 
+tf2 = localStorage.getItem('tf2').split(',');
+tf3 = localStorage.getItem('tf3').split(',');
+ 
+tf4 = localStorage.getItem('tf4').split(','); 
+tf5 = localStorage.getItem('tf5').split(','); 
+tf6 = localStorage.getItem('tf6').split(','); 
+for (var i = 0; i<tf.length; i++) {
+   
+	document.querySelectorAll('.taskfield')[i].value = tf[i];
+	document.querySelectorAll('.taskpercent')[i].value = tf2[i];
+	document.querySelectorAll('.approx')[i].value = tf3[i];
+	
+	document.querySelectorAll('.taskbutton')[i].addEventListener( 'click', function() {
+plus();
+	if (this.innerHTML == '▶️') {
+
+
+		this.innerHTML='⏸';
+
+		for (i = 0; i<document.querySelectorAll('.taskfield').length; i++) {
+			if (document.querySelectorAll('.taskbutton')[i].innerHTML == '⏸') {
+				 
+				document.querySelectorAll('.taskstatus')[i].style.opacity = '1'
+			}
+		}
+	} else {
+		
+		this.innerHTML='▶️';
+
+		for (i = 0; i<document.querySelectorAll('.taskfield').length; i++) {
+			if (document.querySelectorAll('.taskbutton')[i].innerHTML == '▶️') {
+				tf5[i] =Date.now(); //да-да именно tf5
+				document.querySelectorAll('.taskstatus')[i].style.opacity = '0'
+			}
+		}
+	}
+})
+
+	 
+}
+
 
 
 }
@@ -622,7 +704,11 @@ clear();
  var reinit = 0;
 var quality = 50;
 var superlink = '';
+var tf5 = [];
+var tf6 = []
 function plus(percent){
+
+
  
 if ((reinit == 1)&&(percent>0)) {
 initDraw(document.getElementById('tasks').value);
@@ -657,6 +743,9 @@ made = r/1000/percent;
 l = r;
 s = s + r;
 m = worktime/(percentage+percent);
+
+
+
 m2 = s/(a+percent);
 //m = worktime/(a+percent);
 as = 3600/((Math.floor(m/1000)));
@@ -767,22 +856,23 @@ document.getElementById('cur_speed').innerHTML = 'Current speed: ' + cur_speed +
 document.getElementById('sp').innerHTML = 'Average speed: ' + as + '%/h';
 document.getElementById('sp2').innerHTML = 'Overall speed: ' + as2 + '%/h';
 document.getElementById('percentage').innerHTML = 'Overall percentage: ' + percentage+ '%';
-document.getElementById('avgtime').innerHTML = 'Overall percentage: ' + ((worktime/s)*100)+ '%';
+
 
 document.getElementById('pp').innerHTML = '1% once in (AVERAGE) : ' + Math.floor(m/60/60/1000) + ' hours ' + ' ' + (Math.floor(m/60/1000)-60*Math.floor(m/60/60/1000)) + ' min' + ' ' + (Math.floor(m/1000)-60*Math.floor(m/60/1000)) + ' sec.'
 
 r = m;
-r = r*(100-a)
+r = r*(goal-percentage)
 document.getElementById('r').innerHTML = 'Approximately left: ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.'
 time = Date.now();
 lastuptime = Date.now();
-document.getElementById('pb').style.width = a + '%';
-document.getElementById('p').innerHTML = a + '%';
+document.getElementById('pb').style.width = ((percentage/goal)*100) + '%';
+document.getElementById('p').innerHTML = percentage;
+//hereitcomes^
 document.getElementById('percentage').innerHTML = 'Overall percentage: ' + percentage + '%';
 
 s = Date.now();
 s = s - begining;
-
+document.getElementById('avgtime').innerHTML = 'WorkTime/AllTime percentage: ' + ((worktime/s)*100)+ '%';
 document.getElementById('b').innerHTML = 'Started ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec.';
 document.getElementById('worktime').innerHTML = 'Working for ' + Math.floor(worktime/60/60/1000) + ' hours ' + ' ' + (Math.floor(worktime/60/1000)-60*Math.floor(worktime/60/60/1000)) + ' min' + ' ' + (Math.floor(worktime/1000)-60*Math.floor(worktime/60/1000)) + ' sec ago.';
 document.getElementById('uptime').innerHTML = 'Uptime for ' + Math.floor(uptime/60/60/1000) + ' hours ' + ' ' + (Math.floor(uptime/60/1000)-60*Math.floor(uptime/60/60/1000)) + ' min' + ' ' + (Math.floor(uptime/1000)-60*Math.floor(uptime/60/1000)) + ' sec ago.';
@@ -796,9 +886,22 @@ document.getElementById('report').value+='\n Average speed: ' + as + '%/h';
 document.getElementById('report').value+='\n Overall speed: ' + as2 + '%/h';
 document.getElementById('report').value+='\n'+document.getElementById('pp').innerHTML
 document.getElementById('report').value+='\n'+document.getElementById('worktime').innerHTML;
-document.getElementById('report').innerHTML+= '\n'+document.getElementById('uptime').innerHTML;
-document.getElementById('report').innerHTML+= '\n' + 'Overall percentage: ' + percentage+ '%';
-document.getElementById('report').innerHTML+= '\n' + 'WorkTime/AllTime: ' + ((worktime/s)*100)+ '%';
+document.getElementById('report').value+= '\n'+document.getElementById('uptime').innerHTML;
+document.getElementById('report').value+= '\n' + 'Overall percentage: ' + percentage+ '%';
+document.getElementById('report').value+= '\n' + 'WorkTime/AllTime: ' + ((worktime/s)*100)+ '%';
+
+if (tf4[0] !== "") {
+	try { 
+
+for (var i = 0; i<tf4.length; i++) {
+document.getElementById('report').value+= '\n ********************';
+document.getElementById('report').value+= ' \n Task ' +	document.querySelectorAll('.taskfield')[i].value
+document.getElementById('report').value+= ' is ' + document.querySelectorAll('.taskpercent')[i].value + '.'
+document.getElementById('report').value+= 'Approx: ' +	document.querySelectorAll('.approx')[i].value + '.'
+document.getElementById('report').value+= '\n ********************';	
+}	
+} catch(e) {console.log('error with tasks')}
+}
 localStorage.setItem('memory', document.getElementById('report').value)
 clear();
 
@@ -820,19 +923,96 @@ alert('Render has been completed, if you want to continue: click + again, but ma
 
 }
 }
+if (tf4[0] !== "")  {
+	try {
+for (var i = 0; i<tf4.length; i++) {
 
+if (document.querySelectorAll('.taskpercent')[i].value*1 == 100) {
+try {
+	tf4[i].remove(i);
+	tf5[i].remove(i);
+	} catch(e) {}
+	console.log(document.querySelectorAll('.taskpercent')[i])
+	document.querySelectorAll('.taskpercent')[i].remove();
+	document.querySelectorAll('.taskfield')[i].remove();
+	document.querySelectorAll('.approx')[i].remove();
+	document.querySelectorAll('.taskstatus')[i].remove();
+	document.querySelectorAll('.taskbutton')[i].remove();
+	
+	document.querySelectorAll('.thebr')[i].remove();
+	document.querySelectorAll('.thebr2')[i].remove();
+}
+
+
+if (document.querySelectorAll('.taskbutton')[i].innerHTML == "⏸") {
+ 
+var workdone = Date.now() - tf4[i]
+ 
+if (isNaN(tf6[i])) {
+ 
+ tf6[i] = 0}
+tf6[i] += (Date.now()-tf5[i])
+ 
+tf5[i] = Date.now();
+ 
+var mt = workdone/(document.querySelectorAll('.taskpercent')[i].value*1);
+var rt = mt;
+var rt = rt*(100-document.querySelectorAll('.taskpercent')[i].value*1)
+document.querySelectorAll('.approx')[i].value = 'OverallLeft: ' + Math.floor(rt/60/60/1000) + '/' + '' + (Math.floor(rt/60/1000)-60*Math.floor(rt/60/60/1000)) + '/' + '' + (Math.floor(rt/1000)-60*Math.floor(rt/60/1000)) + '/'
+
+document.querySelectorAll('.approx')[i].value += 'SpO: ' + Math.floor((document.querySelectorAll('.taskpercent')[i].value*1)/((Date.now()-tf4[i])/1000/60/60));
+var mt = tf6[i]/(document.querySelectorAll('.taskpercent')[i].value*1);
+var rt = mt;
+var rt = rt*(100-document.querySelectorAll('.taskpercent')[i].value*1)
+document.querySelectorAll('.approx')[i].value += 'WorkLeft: ' + Math.floor(rt/60/60/1000) + '/' + '' + (Math.floor(rt/60/1000)-60*Math.floor(rt/60/60/1000)) + '/' + '' + (Math.floor(rt/1000)-60*Math.floor(rt/60/1000)) + '/'
+var s = Date.now()-tf4[i];
+
+document.querySelectorAll('.approx')[i].value += 'StartedAgo: ' +  Math.floor(s/60/60/1000) + '/' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + '/'+ (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + '/';
+var s =  tf6[i];
+document.querySelectorAll('.approx')[i].value += 'Wrkf: ' +  Math.floor(s/60/60/1000) + '/' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + '/'  + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + '/';
+
+document.querySelectorAll('.approx')[i].value += 'SpW: ' + Math.floor((document.querySelectorAll('.taskpercent')[i].value*1)/((tf6[i])/1000/60/60));
+
+}
+}
+} catch(e) {}
+}
 saveprogress();
 }
+
+
 function saveprogress(){
 localStorage.setItem('progress', document.querySelector('html').innerHTML)
 localStorage.setItem('avar', a)
+localStorage.setItem('percentage', percentage)
 localStorage.setItem('click', click)
 localStorage.setItem('begining', begining)
 localStorage.setItem('worktime', worktime)
 localStorage.setItem('percentage', percentage)
 localStorage.setItem('reinit', reinit) 
+localStorage.setItem('goal', goal) 
+localStorage.setItem('methods', methods) 
+localStorage.setItem('cur', cur) 
 
 localStorage.setItem('img1.src', img1.src)
+tf = []
+tf2 = []
+tf3 = []
+for (var i = 0; i<document.querySelectorAll('.taskfield').length; i++) {
+	tf.push(document.querySelectorAll('.taskfield')[i].value);
+	tf2.push(document.querySelectorAll('.taskpercent')[i].value);
+	tf3.push(document.querySelectorAll('.approx')[i].value);
+	 
+}
+
+if (tf4.length > 0 ) {
+localStorage.setItem('tf', tf) 
+localStorage.setItem('tf2', tf2)
+localStorage.setItem('tf3', tf3)
+localStorage.setItem('tf4', tf4)
+localStorage.setItem('tf5', tf5)
+localStorage.setItem('tf6', tf6)
+}
 }
 function myFunction() {
   var copyText = document.getElementById("report");
@@ -846,14 +1026,16 @@ var engine = false;
 checkbox.addEventListener( 'change', function() {
     if(this.checked) {
        document.querySelector('#startup').play();
-	   
+	   document.getElementById('report').value+='\n Engine on!';
+	   localStorage.setItem('memory', document.getElementById('report').value)
 	   uptime = 0;
 	    clear();
 		plus();
 	   engine = true;
 	   document.querySelector('#progress').classList.remove('opacity');
     } else {
-		 
+		 document.getElementById('report').value+='\n Engine off!';
+		 localStorage.setItem('memory', document.getElementById('report').value)
         document.querySelector('#engineoff').play();
 		 clear();
 		 engine = true;
@@ -863,13 +1045,35 @@ checkbox.addEventListener( 'change', function() {
     }
 });
 
-var checkbox2 = document.querySelector("#needdownload");
- 
-checkbox2.addEventListener( 'change', function() {
-    if(this.checked) {
-       needdownload = true;
-    } else {
-        needdownload = false;
-    }
-});
+function addtask() {
+tf4.unshift(Date.now())
+tf5.unshift(Date.now())
+document.getElementById('taskfield').insertAdjacentHTML('afterbegin',` <img class='taskstatus' style='width: 50px; height: 50px; margin-right: 5px; opacity: 0; border-radius: 25px' src="https://media1.giphy.com/media/xTk9ZvMnbIiIew7IpW/giphy.gif"/><button class='taskbutton' style='width: 50px; margin-right: 5px;  height: 50px'>▶️</button><input class='taskfield' placeholder='Task name'  style="width: 20%; height: 50px"  /> <input type='number' id='task1'  min="0" max="100" class='taskpercent'   style="width: 50px; height: 50px"  /><input  class='approx' style='height: 50px; width: 700px; margin-left: 5px'  > <br   class='thebr'> <br   class='thebr2'>`)
+document.querySelector('.taskbutton').addEventListener( 'click', function() {
+plus();
+	if (this.innerHTML == '▶️') {
+
+
+		this.innerHTML='⏸';
+
+		for (i = 0; i<document.querySelectorAll('.taskfield').length; i++) {
+			if (document.querySelectorAll('.taskbutton')[i].innerHTML == '⏸') {
+				 
+				document.querySelectorAll('.taskstatus')[i].style.opacity = '1'
+			}
+		}
+	} else {
+		
+		this.innerHTML='▶️';
+
+		for (i = 0; i<document.querySelectorAll('.taskfield').length; i++) {
+			if (document.querySelectorAll('.taskbutton')[i].innerHTML == '▶️') {
+				tf5[i] = Date.now();
+				document.querySelectorAll('.taskstatus')[i].style.opacity = '0'
+			}
+		}
+	}
+}
+)
+}
 </script>
