@@ -1046,8 +1046,8 @@ checkbox.addEventListener( 'change', function() {
 });
 
 function addtask() {
-tf4.push(Date.now())
-tf5.push(Date.now())
+tf4.unshift(Date.now())
+tf5.unshift(Date.now())
 document.getElementById('taskfield').insertAdjacentHTML('afterbegin',` <img class='taskstatus' style='width: 50px; height: 50px; margin-right: 5px; opacity: 0; border-radius: 25px' src="https://media1.giphy.com/media/xTk9ZvMnbIiIew7IpW/giphy.gif"/><button class='taskbutton' style='width: 50px; margin-right: 5px;  height: 50px'>▶️</button><input class='taskfield' placeholder='Task name'  style="width: 20%; height: 50px"  /> <input type='number' id='task1'  min="0" max="100" class='taskpercent'   style="width: 50px; height: 50px"  /><input  class='approx' style='height: 50px; width: 700px; margin-left: 5px'  > <br   class='thebr'> <br   class='thebr2'>`)
 document.querySelector('.taskbutton').addEventListener( 'click', function() {
 plus();
