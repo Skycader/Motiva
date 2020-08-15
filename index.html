@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <br>
 <center><h3 onclick='limit()'> CertainQuick </h3></center>
-<center><h5> FastBoot-NetReaper-RapidBuilder v 5.5.0 [15th august]</h5></center>
+<center><h5> FastBoot-NetReaper-RapidBuilder v 6.0.0 [15th august]</h5></center>
 <p id='status' style='text-align: center' >Waiting for initialization...</p>
 <div style='margin: 30px' class="progress">
   <div id='pb' class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
@@ -242,6 +242,7 @@ display: none;
 var tf2 = [];
 var tf3 = [];
 var tf4 = [];
+var tf5 = []
   function makegoal(){
   goal = prompt('Set the goal');
   document.querySelector('#goal').innerHTML = goal;
@@ -285,10 +286,10 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 }
   function initDraw(imglink){
     
-  if (imglink.startsWith('http')) {
+  
    
   img1.src = imglink;
-  }
+   
   }
     let c = document.createElement("canvas");
     ctx = c.getContext('2d');
@@ -904,10 +905,11 @@ document.getElementById('stat8').style.height = click*30+30  + 'px';
  
 document.getElementById('stat8').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='  opacity: 1;   border: 2px solid darkred; background-color: #ff7b2e; position: absolute; top: "+click*30+"px;  height: "+ 30+"px; width: "+as2/10+"%'></div>");
 
-
-document.getElementById('stat6').insertAdjacentHTML('beforeend', "<p>"+document.querySelector('#tasks').value+"</p><img class='factory' style='width: 150px' src='"+img1.src+"'/>");
- 
+for (var j=1; j<=(percent); j++) {
+document.getElementById('stat6').insertAdjacentHTML('beforeend', "<p>"+document.querySelector('#tasks').value+"</p><img class='factory' style='width: 100px' src='"+img1.src+"'/>");
 document.querySelector('#tasks').value = '';
+}
+
 
 click++;
   quality = Math.floor(100/a*5-4)
@@ -923,9 +925,9 @@ if (quality<1) {
 quality = 1;
 }
 console.log('lets try');
-if ((!needdownload)&&(i==percent)){
+ 
 lol(quality);
-}
+ 
 try {
 if (needdownload) {
 lol(quality);
@@ -1007,11 +1009,13 @@ if (tf4[0] !== "") {
 	try { 
 
 for (var i = 0; i<tf4.length; i++) {
+  if (document.querySelectorAll('.taskstatus').style.opacity == "1") {
 document.getElementById('report').value+= '\n ********************';
 document.getElementById('report').value+= ' \n Task ' +	document.querySelectorAll('.taskfield')[i].value
 document.getElementById('report').value+= ' is ' + document.querySelectorAll('.taskpercent')[i].value + '.'
 document.getElementById('report').value+= 'Approx: ' +	document.querySelectorAll('.approx')[i].value + '.'
 document.getElementById('report').value+= '\n ********************';	
+}
 }	
 } catch(e) {console.log('error with tasks')}
 }
