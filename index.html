@@ -599,11 +599,11 @@ Array.prototype.remove = function(from, to) {
 document.getElementById('report').value = localStorage.getItem('memory');
 if (localStorage.getItem('progress') !== null) {
 console.log('restoring progress...');
-load();
+setTimeout(function(){load()},1500);
  
 }
 function load(){
-
+  console.log('restoring progress complete.');
 document.querySelector('html').innerHTML = localStorage.getItem('progress');
 document.querySelector('#report').value = localStorage.getItem('memory')
 
