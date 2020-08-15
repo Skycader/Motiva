@@ -1,5 +1,5 @@
 <style>
- 
+ overflow-x: hidden;
 </style>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <br>
 <center><h3 onclick='limit()'> CertainQuick </h3></center>
-<center><h5> FastBoot-NetReaper-RapidBuilder v 4.0.0 [13th august]</h5></center>
+<center><h5> FastBoot-NetReaper-RapidBuilder v 5.0.0 [15th august]</h5></center>
 <p id='status' style='text-align: center' >Waiting for initialization...</p>
 <div style='margin: 30px' class="progress">
   <div id='pb' class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
@@ -51,6 +51,7 @@ opacity: 0.2;
 <div style='display: flex; flex-direction: row; align-items: center; justify-content: space-around'>
 
 <p>Speed</p><div id='metr' style='min-width: 5px; min-height: 150px;  border-bottom: 10px solid black; width: 5px; height: 150px; background-color: red; transform-origin: bottom center; transform: rotateZ(-90deg); transition-duration: 1s'></div>
+<p>Average speed</p><div id='metr5' style='min-width: 5px; min-height: 150px;  border-bottom: 10px solid black; width: 5px; height: 150px; background-color: red; transform-origin: bottom center; transform: rotateZ(-90deg); transition-duration: 1s'></div>
 <p>CPU</p><div id='metr2' style=' border-bottom: 10px solid black; width: 5px; height: 150px; background-color: red; transform-origin: bottom center; transform: rotateZ(-90deg); transition-duration: 1s'></div>
 <p>Energy</p><div id='metr3' style=' border-bottom: 10px solid black; width: 5px; height: 150px; background-color: red; transform-origin: bottom center; transform: rotateZ(-90deg); transition-duration: 1s'></div>
 <p>Temperature</p><div id='metr4' style=' border-bottom: 10px solid black; width: 5px; height: 150px; background-color: red; transform-origin: bottom center; transform: rotateZ(-90deg); transition-duration: 1s'></div>
@@ -92,7 +93,8 @@ opacity: 0.2;
 <textarea placeholder='Distance travelled in KM' id='go4' style='margin: 5px; width: 10%; height: 50px'></textarea>
 </center>
 -->
-<center onclick="document.querySelector('#active').classList.toggle('hide');">Now rendering frame (put frame src to tasks field):</center>
+<center  onclick="document.querySelector('#active').classList.toggle('hide');">Now rendering frame (put frame src to tasks field):</center>
+<center onclick='changeframe()' id='whatrender'></center>
 <div style='margin: 0 auto; width: 80%;' id='render'>
 <img style='opacity: 0%' id="image1" src="" />
 </div>
@@ -273,7 +275,7 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 })
 }
   function initDraw(imglink){
-   
+    
   if (imglink.startsWith('http')) {
    
   img1.src = imglink;
@@ -325,27 +327,32 @@ document.querySelectorAll('.spinning-loader')[1].animate([
 
   </script>
   <br><br><br> 
-  <div class='made' id='made'>
-  <p> Speed </p>
-<center><div id='stat' style='position: relative;   border: 1px solid black; width: 95%; height: 300px'></div></center>
+  <div class='made' id='made'> 
+  <div style='display: flex'> 
+ 
+ <div id='stat' style='position: relative;  border: 1px solid black;  flex-grow: 1   '></div> 
 <br>
-<p>Processor load</p>
-<center><div id='stat2' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
+ 
+ <div id='stat7' style='position: relative;  border: 1px solid black; width: 30%;'></div> 
 <br>
-<p>Energy left</p>
-<center><div id='stat3' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'>
+
+ 
+ <div id='stat2' style='position: relative;   border: 1px solid black; width: 5%; '></div> 
+<br>
+ 
+  <div id='stat3' style='position: relative;   border: 1px solid black; width: 5%;  '>
 
  
 
-</div></center>
+</div> 
 <br>
-<p>Motivation level</p>
-<center><div id='stat5' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
+ 
+ <div id='stat5' style='position: relative;  border: 1px solid black; width: 5%;'></div> 
 <br>
-<p>Temperature</p>
-<center><div id='stat4' style='position: relative; overflow: auto; border: 1px solid black; width: 95%; height: 300px'></div></center>
+ 
+ <div id='stat4' style='position: relative;   border: 1px solid black; width: 5%;'></div> 
 <br>
-
+</div>
 
 <p onclick='bringback()'>Made %</p>
 <center><div id='stat6' style='position: relative;   border: 1px solid black; width: 95%;  height: auto; justify-content: center; line-height: 30px; margin: 0; padding: 0;  min-height: 30px; display: flex; flex-direction: row; flex-wrap: wrap;'>
@@ -407,23 +414,57 @@ cursor: pointer;
 
 <script type="text/javascript">
 var save = '';
+var imgarray = []
 function saveit(){
-setTimeout(function(){
-lol(1);
-superlink = document.querySelector('#render img').src;
+  
+ var i = 0;
+ 
+ function doit() {
+ 
+  //alert(`${i}<${imgarray.length}`)
+ if (i<imgarray.length) {
 
-document.querySelector('img').remove();
+    
+    initDraw(imgarray[i])
+     
 
-for (var i = 0; i<document.querySelectorAll('.factory').length; i++) {
-	document.querySelectorAll('.factory')[i].src = superlink;
-}
-save = document.querySelector('html').innerHTML;
+      lol(1);
+     
+      setTimeout(function(){
+         
+        try {
+      superlink = document.querySelector('#render img').src;
+    } catch(e) {doit()}
+    for (var j = 0; j<(document.querySelectorAll('.factory').length); j++) {
+       
+
+ 
+      if (document.querySelectorAll('.factory')[j].src == imgarray[i]) {
+      document.querySelectorAll('.factory')[j].src = superlink;
+      
+      }
+    }
+    i++
+       
+     
+    doit()
+
+      },500) 
+ 
+     
+} else {
+  save = document.querySelector('html').innerHTML;
 document.querySelector('html').innerHTML = document.querySelector('.made').innerHTML;
 html2canvas(document.querySelector('html')).then(canvas => {
     document.body.appendChild(canvas)
 });
-},500);
+}
+ 
+}
 
+doit()
+
+//
 }
 function bringback(){
 document.querySelector('html').innerHTML = save;
@@ -434,7 +475,7 @@ click = 0;
 function avg(){
  
 var sum = 0;
-	 document.querySelectorAll("div[alt='speed']").forEach(element => sum+=element.offsetHeight)
+	 document.querySelectorAll("div[alt='speed']").forEach(element => sum+=parseInt(element.style.width)*3)
 	return sum/document.querySelectorAll("div[alt='speed']").length;
 }
 
@@ -560,7 +601,7 @@ goal = localStorage.getItem('goal');
 
 methods = localStorage.getItem('methods')
 cur = localStorage.getItem('cur')
-
+ 
 document.querySelector('#progress').classList.add('opacity');
 a = 1*localStorage.getItem('avar')
 percentage = 1*localStorage.getItem('percentage')
@@ -574,6 +615,7 @@ percentage = 1*localStorage.getItem('percentage')
 imglink = localStorage.getItem('img1.src')
 
 initDraw(imglink);
+imgarray.push(imglink)
 quality = Math.floor(100/a*5-4)
 if (a >=80) {
 quality = 2;
@@ -611,7 +653,7 @@ checkbox.addEventListener( 'change', function() {
 
 
 tf = localStorage.getItem('tf').split(',');
- 
+imgarray = localStorage.getItem('imgarray').split(',');
 tf2 = localStorage.getItem('tf2').split(',');
 tf3 = localStorage.getItem('tf3').split(',');
  
@@ -672,6 +714,7 @@ var begining = Date.now()
 function init(){
 
 initDraw(document.getElementById('tasks').value);
+imgarray.push(document.getElementById('tasks').value)
 console.log(document.getElementById('tasks').value);
 
  
@@ -698,6 +741,10 @@ clear();
 
  
  }
+ function changeframe(){
+   var change = prompt('New url:')
+   initDraw(change)
+ }
  var percentage = 0;
  var lastuptime = Date.now();
  var uptime = 0;
@@ -712,7 +759,7 @@ function plus(percent){
  
 if ((reinit == 1)&&(percent>0)) {
 initDraw(document.getElementById('tasks').value);
-
+imgarray.push(document.getElementById('tasks').value)
 a = -1;
  document.getElementById('stat6').insertAdjacentHTML('beforeend', "<p>"+document.querySelector('#tasks').value+"</p><img style='width: 150px' src='"+img1.src+"'/>");
 
@@ -731,6 +778,7 @@ if (a<100) {
  
 document.getElementById('status').innerHTML = methods[cur] + ' ' + document.getElementById('tasks').value + ' ... ';
 a = a + percent;
+document.querySelector('#whatrender').innerHTML = 'Render percentage: '+a+'.';
 percentage +=percent;
 
 r = Date.now()-time;
@@ -751,11 +799,11 @@ m2 = s/(a+percent);
 as = 3600/((Math.floor(m/1000)));
 as2 = 3600/((Math.floor(m2/1000)));
 console.log('as'+as)
-if (as>300) {
-as=300;
+if (as>1000) {
+as=1000;
 }
-if (as2>300) {
-as2=300;
+if (as2>1000) {
+as2=1000;
 }
 if (percent == 0) {
 cur_speed = 0;
@@ -763,8 +811,8 @@ cur_speed = 0;
 
 
 cur_speed = (1/(r/1000))*60*percent*60;
-if (cur_speed>300) {
-cur_speed=300;
+if (cur_speed>1000) {
+cur_speed=1000;
 }
 if (percent == 0) {
 cur_speed = 0;
@@ -778,24 +826,54 @@ var tasks = '';
  document.querySelector('#tasks').value+=', ' + cur_speed + ' ' + (new Date().getMonth()+1) + ' ' + new Date().getDate() + 'th ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
  for (var i=1; i<=percent; i++) {
  
-  var done = document.getElementById('tasks').value.slice(0,25) + '...';
+  var done = document.getElementById('tasks').value  + '...';
  var done2 = Date().slice(0,24)  
- document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*20+"px; bottom:  0px;  width: "+ 30+"px; height: "+300+"px'>"+done+"</div>");
-document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;   opacity: 1; border: 2px solid darkgreen; position: absolute; left: "+click*20+"px; bottom:  0px;  background-color: green; width: "+ 30+"px; height: "+cur_speed+"px'></div>");
- document.getElementById('stat2').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*20+"px; bottom:  0px;  width: "+ 30+"px; height: "+300+"px'>"+done2+"</div>");
+  document.getElementById('stat').style.height = click*30+30  + 'px';
+ document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='  z-index: 5;  opacity: 1; border: 0px solid darkgreen; position: absolute; top: "+click*30+"px;   height: "+ 30+"px; width: "+100+"%'>"+done+"</div>");
+document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='    opacity: 1; border: 2px solid darkgreen; position: absolute; top: "+click*30+"px;    background-color: green; height: "+ 30+"px; width: "+cur_speed/10+"%'></div>");
+document.getElementById('stat2').style.height = click*30+30  + 'px';
+ //document.getElementById('stat7').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='   z-index: 5;  opacity: 1; border: 0px solid darkgreen; position: absolute; top: "+click*30+"px;  width: "+ 100+"%; height: "+30+"px'>"+done2+"</div>");
+//защита от дурака
+if (document.getElementById('cpu').value*20 > 100) {
+  document.getElementById('cpu').value = 5;
+}
 
-document.getElementById('stat2').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='cpu'style='float: left; opacity: 1;  border: 2px solid darkblue; background-color: blue; position: absolute; left: "+click*20+"px; bottom:  0px;  width: "+ 30+"px; height: "+document.getElementById('cpu').value*20+"%'></div>");
- document.getElementById('stat3').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*20+"px; bottom:  0px;  width: "+ 30+"px; height: "+300+"px'>"+done2+"</div>");
+document.getElementById('stat2').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='cpu'style='  opacity: 1;  border: 2px solid darkblue; background-color: blue; position: absolute; top: "+click*30+"px;    height: "+ 30+"px; width: "+document.getElementById('cpu').value*20+"%'></div>");
 
-document.getElementById('stat3').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='power'style='float: left; opacity: 1;  border: 2px solid darkorange; background-color: yellow; position: absolute; left: "+click*20+"px; bottom:  0px;  width: "+ 30+"px; height: "+document.getElementById('pow').value*20+"%'></div>");
- document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*20+"px; bottom:  0px;  width: "+ 30+"px; height: "+300+"px'>"+done2+"</div>");
-
-document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1;   border: 2px solid darkred; background-color: red; position: absolute; left: "+click*20+"px; bottom:  0px;   width: "+ 30+"px; height: "+document.getElementById('temp').value*20+"%'></div>");
-
- document.getElementById('stat5').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='float: left;  writing-mode: vertical-lr; z-index: 5; text-orientation: mixed; opacity: 1; border: 0px solid darkgreen; position: absolute; left: "+click*20+"px; bottom:  0px;  width: "+ 30+"px; height: "+300+"px'>"+done2+"</div>");
-
-document.getElementById('stat5').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='float: left;  opacity: 1;   border: 2px solid darkred; background-color: orange; position: absolute; left: "+click*20+"px; bottom:  0px;   width: "+ 30+"px; height: "+document.getElementById('motiva').value*20+"%'></div>");
+document.getElementById('stat3').style.height = click*30+30  + 'px';
  
+
+ if (document.getElementById('pow').value*20 > 100) {
+  document.getElementById('pow').value = 5;
+}
+
+document.getElementById('stat3').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='power'style='  opacity: 1;  border: 2px solid darkorange; background-color: yellow; position: absolute; top: "+click*30+"px;    height: "+ 30+"px; width: "+document.getElementById('pow').value*20+"%'></div>");
+
+if (document.getElementById('pow').value*20 > 100) {
+  document.getElementById('pow').value = 5;
+}
+
+document.getElementById('stat4').style.height = click*30+30  + 'px';
+ 
+
+ if (document.getElementById('temp').value*20 > 100) {
+  document.getElementById('temp').value = 5;
+}
+
+document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='   opacity: 1;   border: 2px solid darkred; background-color: red; position: absolute; top: "+click*30+"px;   height: "+ 30+"px; width: "+document.getElementById('temp').value*20+"%'></div>");
+document.getElementById('stat5').style.height = click*30+30  + 'px';
+ 
+
+ if (document.getElementById('motiva').value*20 > 100) {
+  document.getElementById('motiva').value = 5;
+}
+
+document.getElementById('stat5').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='  opacity: 1;   border: 2px solid darkred; background-color: orange; position: absolute; top: "+click*30+"px;  height: "+ 30+"px; width: "+document.getElementById('motiva').value*20+"%'></div>");
+
+document.getElementById('stat7').style.height = click*30+30  + 'px';
+ 
+document.getElementById('stat7').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='  opacity: 1;   border: 2px solid darkred; background-color: orange; position: absolute; top: "+click*30+"px;  height: "+ 30+"px; width: "+as/10+"%'></div>");
+
 document.getElementById('stat6').insertAdjacentHTML('beforeend', "<p>"+document.querySelector('#tasks').value+"</p><img class='factory' style='width: 150px' src='"+img1.src+"'/>");
  
 document.querySelector('#tasks').value = '';
@@ -842,11 +920,13 @@ document.body.removeChild(link);
 
 stat(percent);
  
-deg = cur_speed/(300/180)-90;
+deg = cur_speed/(1000/180)-90;
+deg5 = as/(1000/180)-90;
 deg2 = 20*document.getElementById('cpu').value*(180/100)-90;
 deg3 = 20*document.getElementById('pow').value*(180/100)-90;
 deg4 = 20*document.getElementById('temp').value*(180/100)-90;
 document.getElementById("metr").style.transform = "rotate("+deg+"deg)";
+document.getElementById("metr5").style.transform = "rotate("+deg5+"deg)";
 document.getElementById("metr2").style.transform = "rotate("+deg2+"deg)";
 document.getElementById("metr3").style.transform = "rotate("+deg3+"deg)";
 document.getElementById("metr4").style.transform = "rotate("+deg4+"deg)";
@@ -984,6 +1064,7 @@ saveprogress();
 function saveprogress(){
 localStorage.setItem('progress', document.querySelector('html').innerHTML)
 localStorage.setItem('avar', a)
+localStorage.setItem('imgarray', imgarray)
 localStorage.setItem('percentage', percentage)
 localStorage.setItem('click', click)
 localStorage.setItem('begining', begining)
@@ -1049,6 +1130,7 @@ function addtask() {
 tf4.unshift(Date.now())
 tf5.unshift(Date.now())
 document.getElementById('taskfield').insertAdjacentHTML('afterbegin',` <img class='taskstatus' style='width: 50px; height: 50px; margin-right: 5px; opacity: 0; border-radius: 25px' src="https://media1.giphy.com/media/xTk9ZvMnbIiIew7IpW/giphy.gif"/><button class='taskbutton' style='width: 50px; margin-right: 5px;  height: 50px'>▶️</button><input class='taskfield' placeholder='Task name'  style="width: 20%; height: 50px"  /> <input type='number' id='task1'  min="0" max="100" class='taskpercent'   style="width: 50px; height: 50px"  /><input  class='approx' style='height: 50px; width: 700px; margin-left: 5px'  > <br   class='thebr'> <br   class='thebr2'>`)
+document.querySelector('.taskpercent').value = 1;
 document.querySelector('.taskbutton').addEventListener( 'click', function() {
 plus();
 	if (this.innerHTML == '▶️') {
