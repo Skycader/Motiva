@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <br>
 <center><h3 onclick='limit()'> CertainQuick </h3></center>
-<center><h5> FastBoot-NetReaper-RapidBuilder v 5.0.0 [15th august]</h5></center>
+<center><h5> FastBoot-NetReaper-RapidBuilder v 5.5.0 [15th august]</h5></center>
 <p id='status' style='text-align: center' >Waiting for initialization...</p>
 <div style='margin: 30px' class="progress">
   <div id='pb' class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
@@ -50,10 +50,15 @@ opacity: 0.2;
 <p style='text-align: center' id = 'percentage'>Overall percentage: 0%</p>
 <p style='text-align: center' id = 'avgtime'>WorkTime/AllTime: 0%</p>
 </div>
-<div style='display: flex; flex-direction: row; align-items: center; justify-content: space-around'>
+<div style='display: flex; flex-direction: row; align-items: center;  justify-content: space-around'>
 
 <p>Speed</p><div id='metr' style='min-width: 5px; min-height: 150px;  border-bottom: 10px solid black; width: 5px; height: 150px; background-color: red; transform-origin: bottom center; transform: rotateZ(-90deg); transition-duration: 1s'></div>
 <p>Average speed</p><div id='metr5' style='min-width: 5px; min-height: 150px;  border-bottom: 10px solid black; width: 5px; height: 150px; background-color: red; transform-origin: bottom center; transform: rotateZ(-90deg); transition-duration: 1s'></div>
+ 
+<p>Overall speed</p><div id='metr6' style='min-width: 5px; min-height: 150px;  border-bottom: 10px solid black; width: 5px; height: 150px; background-color: red; transform-origin: bottom center; transform: rotateZ(-90deg); transition-duration: 1s'> 
+</div> </div>
+
+<div style='display: flex; flex-direction: row; align-items: center;  justify-content: space-around'>
 <p>CPU</p><div id='metr2' style=' border-bottom: 10px solid black; width: 5px; height: 150px; background-color: red; transform-origin: bottom center; transform: rotateZ(-90deg); transition-duration: 1s'></div>
 <p>Energy</p><div id='metr3' style=' border-bottom: 10px solid black; width: 5px; height: 150px; background-color: red; transform-origin: bottom center; transform: rotateZ(-90deg); transition-duration: 1s'></div>
 <p>Temperature</p><div id='metr4' style=' border-bottom: 10px solid black; width: 5px; height: 150px; background-color: red; transform-origin: bottom center; transform: rotateZ(-90deg); transition-duration: 1s'></div>
@@ -83,6 +88,7 @@ opacity: 0.2;
 
 <br>
 <center><p> Put, modify and remove tasks here </p></center>
+<center><b> !CAUTION! The task MUST BE SPECIFIED FOR 100%; DO NOT WRITE COMMON TASK (LEARN JAVA or smth) NOR TYPE 2+ tasks </b></center>
 <center><button onclick='addtask()' style='width: calc(20% + 865px); height: 50px'>+</button></center><br>
 <center id='taskfield'> </center>
 <br>
@@ -97,6 +103,7 @@ opacity: 0.2;
 -->
 <center  onclick="document.querySelector('#active').classList.toggle('hide');">Now rendering frame (put frame src to tasks field):</center>
 <center onclick='changeframe()' id='whatrender'></center>
+<center>Speed/AverageSpeed/OverallSpeed/CPU/Energy/Motiva/Temperature</center>
 <div style='margin: 0 auto; width: 80%;' id='render'>
 <img style='opacity: 0%' id="image1" src="" />
 </div>
@@ -335,9 +342,11 @@ document.querySelectorAll('.spinning-loader')[1].animate([
  <div id='stat' style='position: relative;  border: 1px solid black;  flex-grow: 1   '></div> 
 <br>
  
- <div id='stat7' style='position: relative;  border: 1px solid black; width: 30%;'></div> 
+ <div id='stat7' style='position: relative;  border: 1px solid black; width: 15%;'></div> 
 <br>
 
+<div id='stat8' style='position: relative;  border: 1px solid black; width: 15%;'></div> 
+<br>
  
  <div id='stat2' style='position: relative;   border: 1px solid black; width: 5%; '></div> 
 <br>
@@ -791,12 +800,15 @@ uptime +=r2;
 }
 made = r/1000/percent;
 l = r;
-s = s + r;
+s = Date.now();
+s = s - begining;
+ 
+//s = s + r;
 m = worktime/(percentage+percent);
 
 
 
-m2 = s/(a+percent);
+m2 = s/(percentage+percent);
 //m = worktime/(a+percent);
 as = 3600/((Math.floor(m/1000)));
 as2 = 3600/((Math.floor(m2/1000)));
@@ -825,8 +837,8 @@ var tasks = '';
  
  function stat(percent){
  tasks = document.querySelector('#tasks').value
- document.querySelector('#tasks').value+=', ' + cur_speed + ' ' + (new Date().getMonth()+1) + ' ' + new Date().getDate() + 'th ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
- for (var i=1; i<=percent; i++) {
+ document.querySelector('#tasks').value+=', ' + cur_speed + ' ' + (new Date().getMonth()+1) + ' ' + new Date().getDate() + 'th ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ' ' + percentage + '%';
+ for (var i=1; i<=(percent/percent); i++) {
  
   var done = document.getElementById('tasks').value  + '...';
  var done2 = Date().slice(0,24)  
@@ -863,6 +875,18 @@ document.getElementById('stat4').style.height = click*30+30  + 'px';
 }
 
 document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='   opacity: 1;   border: 2px solid darkred; background-color: red; position: absolute; top: "+click*30+"px;   height: "+ 30+"px; width: "+document.getElementById('temp').value*20+"%'></div>");
+document.getElementById('stat4').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='  z-index: 5;  opacity: 1; border: 0px solid darkgreen; position: absolute; top: "+click*30+"px;   height: "+ 30+"px; width: "+100+"%'>"+document.getElementById('temp').value*20+"</div>");
+
+document.getElementById('stat5').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='  z-index: 5;  opacity: 1; border: 0px solid darkgreen; position: absolute; top: "+click*30+"px;   height: "+ 30+"px; width: "+100+"%'>"+document.getElementById('motiva').value*20+"</div>");
+
+document.getElementById('stat3').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='  z-index: 5;  opacity: 1; border: 0px solid darkgreen; position: absolute; top: "+click*30+"px;   height: "+ 30+"px; width: "+100+"%'>"+document.getElementById('pow').value*20+"</div>");
+
+document.getElementById('stat2').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='  z-index: 5;  opacity: 1; border: 0px solid darkgreen; position: absolute; top: "+click*30+"px;   height: "+ 30+"px; width: "+100+"%'>"+document.getElementById('cpu').value*20+"</div>");
+
+document.getElementById('stat8').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='  z-index: 5;  opacity: 1; border: 0px solid darkgreen; position: absolute; top: "+click*30+"px;   height: "+ 30+"px; width: "+100+"%'>"+Math.floor(as2)+"</div>") 
+
+document.getElementById('stat7').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='  z-index: 5;  opacity: 1; border: 0px solid darkgreen; position: absolute; top: "+click*30+"px;   height: "+ 30+"px; width: "+100+"%'>"+Math.floor(as)+"</div>") 
+
 document.getElementById('stat5').style.height = click*30+30  + 'px';
  
 
@@ -875,6 +899,11 @@ document.getElementById('stat5').insertAdjacentHTML('beforeend', "<div id='"+a+"
 document.getElementById('stat7').style.height = click*30+30  + 'px';
  
 document.getElementById('stat7').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='  opacity: 1;   border: 2px solid darkred; background-color: orange; position: absolute; top: "+click*30+"px;  height: "+ 30+"px; width: "+as/10+"%'></div>");
+
+document.getElementById('stat8').style.height = click*30+30  + 'px';
+ 
+document.getElementById('stat8').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='  opacity: 1;   border: 2px solid darkred; background-color: #ff7b2e; position: absolute; top: "+click*30+"px;  height: "+ 30+"px; width: "+as2/10+"%'></div>");
+
 
 document.getElementById('stat6').insertAdjacentHTML('beforeend', "<p>"+document.querySelector('#tasks').value+"</p><img class='factory' style='width: 150px' src='"+img1.src+"'/>");
  
@@ -924,11 +953,13 @@ stat(percent);
  
 deg = cur_speed/(1000/180)-90;
 deg5 = as/(1000/180)-90;
+deg6 = as2/(1000/180)-90;
 deg2 = 20*document.getElementById('cpu').value*(180/100)-90;
 deg3 = 20*document.getElementById('pow').value*(180/100)-90;
 deg4 = 20*document.getElementById('temp').value*(180/100)-90;
 document.getElementById("metr").style.transform = "rotate("+deg+"deg)";
 document.getElementById("metr5").style.transform = "rotate("+deg5+"deg)";
+document.getElementById("metr6").style.transform = "rotate("+deg6+"deg)";
 document.getElementById("metr2").style.transform = "rotate("+deg2+"deg)";
 document.getElementById("metr3").style.transform = "rotate("+deg3+"deg)";
 document.getElementById("metr4").style.transform = "rotate("+deg4+"deg)";
@@ -952,8 +983,8 @@ document.getElementById('p').innerHTML = percentage;
 //hereitcomes^
 document.getElementById('percentage').innerHTML = 'Overall percentage: ' + percentage + '%';
 
-s = Date.now();
-s = s - begining;
+//s = Date.now();
+//s = s - begining;
 document.getElementById('avgtime').innerHTML = 'WorkTime/AllTime percentage: ' + ((worktime/s)*100)+ '%';
 document.getElementById('b').innerHTML = 'Started ' + Math.floor(s/60/60/1000) + ' hours ' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec.';
 document.getElementById('worktime').innerHTML = 'Working for ' + Math.floor(worktime/60/60/1000) + ' hours ' + ' ' + (Math.floor(worktime/60/1000)-60*Math.floor(worktime/60/60/1000)) + ' min' + ' ' + (Math.floor(worktime/1000)-60*Math.floor(worktime/60/1000)) + ' sec ago.';
