@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <br>
 <center><h3 onclick='limit()'> CertainQuick </h3></center>
-<center><h5> FastBoot-NetReaper-RapidBuilder v 6.0.0 [15th august]</h5></center>
+<center><h5> FastBoot-NetReaper-RapidBuilder v 8.0.0 [23d august]</h5></center>
 <p id='status' style='text-align: center' >Waiting for initialization...</p>
 <div style='margin: 30px' class="progress">
   <div id='pb' class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
@@ -37,6 +37,7 @@ opacity: 0.2;
 <p style='text-align: center' id = 'bb'>Not started</p>
 <p style='text-align: center' id = 'li'>Before shutdown: not started</p>
 <p style='text-align: center' id = 'made'>It takes n sec for 1%.</p>
+<p style='text-align: center' id = 'made2'>Overall it takes n sec for 1%.</p>
 <p style='text-align: center' id = 'll'>From the last % ...</p>
 <p style='text-align: center' id = 'cur_speed'>Current speed: 0%/h</p>
 <p style='text-align: center' id = 'avg'>Work average speed: 0%/h</p>
@@ -47,8 +48,10 @@ opacity: 0.2;
 <p style='text-align: center' id = 'worktime'>Working time: 0 hours 0 min 0 secs ago.</p>
 <p style='text-align: center' id = 'uptime'>Uptime: 0 hours 0 min 0 secs ago.</p>
 <p style='text-align: center' id = 'r'>Approximately time left 0 hours 0 min 0 sec.</p>
+<p style='text-align: center' id = 'or'>Overall approximately time left 0 hours 0 min 0 sec.</p>
 <p style='text-align: center' id = 'percentage'>Overall percentage: 0%</p>
 <p style='text-align: center' id = 'avgtime'>WorkTime/AllTime: 0%</p>
+<p style='text-align: center' id = 'daywork'>Working hours a day: 0h</p>
 </div>
 <div style='display: flex; flex-direction: row; align-items: center;  justify-content: space-around'>
 
@@ -65,8 +68,8 @@ opacity: 0.2;
 </div>
 
 <br>
-<center><strong>CAUTION: CLICK +n% for EACH microWORK! If you did 1% of progress it could take 50% of actual work. count WORK! Pay for usage of microprocessor! </strong></center>
-<center>
+<center onclick='setbonus()'><strong>CAUTION: CLICK +n% for EACH microWORK! If you did 1% of progress it could take 50% of actual work. count WORK! Pay for usage of microprocessor! </strong></center>
+<center >
  
  Start engine:  <input type="checkbox" id='enginestatus' name="option4" style="transform: scale(3); margin-left: 10px; margin-right: 30px;" value="a4">
 <button id='progress' class='opacity' style='margin: 25px; width: 20%; height: 40px' onclick="init()">+</button>
@@ -440,11 +443,12 @@ function saveit(){
     initDraw(imgarray[i])
      
 
-      lol(1);
+      
      
       setTimeout(function(){
          
         try {
+          lol(1);
       superlink = document.querySelector('#render img').src;
     } catch(e) {doit()}
     for (var j = 0; j<(document.querySelectorAll('.factory').length); j++) {
@@ -461,7 +465,7 @@ function saveit(){
      
     doit()
 
-      },500) 
+      },1500) 
  
      
 } else {
@@ -697,7 +701,8 @@ plus();
 
 		for (i = 0; i<document.querySelectorAll('.taskfield').length; i++) {
 			if (document.querySelectorAll('.taskbutton')[i].innerHTML == '▶️') {
-				tf5[i] =Date.now(); //да-да именно tf5
+        tf5[i] =Date.now(); //да-да именно tf5
+        tf6[i] = 0;
 				document.querySelectorAll('.taskstatus')[i].style.opacity = '0'
 			}
 		}
@@ -765,6 +770,10 @@ var quality = 50;
 var superlink = '';
 var tf5 = [];
 var tf6 = []
+var bonus = 0;
+function setbonus(){
+  bonus = 1*prompt('Set bonus time in ms: ')
+}
 function plus(percent){
 
 
@@ -773,7 +782,7 @@ if ((reinit == 1)&&(percent>0)) {
 initDraw(document.getElementById('tasks').value);
 imgarray.push(document.getElementById('tasks').value)
 a = -1;
- document.getElementById('stat6').insertAdjacentHTML('beforeend', "<p>"+document.querySelector('#tasks').value+"</p><img style='width: 150px' src='"+img1.src+"'/>");
+ document.getElementById('stat6').insertAdjacentHTML('beforeend', "<p>" + cur_speed + ' ' + (new Date().getMonth()+1) + ' ' + new Date().getDate() + 'th ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ' ' + percentage + '% ' +document.querySelector('#tasks').value+"</p><img style='width: 150px' src='"+img1.src+"'/>");
 
  
 reinit = 0;
@@ -794,6 +803,7 @@ document.querySelector('#whatrender').innerHTML = 'Render percentage: '+a+'.';
 percentage +=percent;
 
 r = Date.now()-time;
+r+=bonus;
 r2 = Date.now()-lastuptime;
 if (percent > 0) {
 worktime+=r; 
@@ -835,13 +845,14 @@ cur_speed = 0;
 console.log(r/1000);
  
 var tasks = '';
- 
+var tasks2 = ''; 
  function stat(percent){
- tasks = document.querySelector('#tasks').value
- document.querySelector('#tasks').value+=', ' + cur_speed + ' ' + (new Date().getMonth()+1) + ' ' + new Date().getDate() + 'th ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ' ' + percentage + '%';
+ tasks = document.querySelector('#tasks').value.slice(0,40)
+ tasks2 = document.querySelector('#tasks').value 
+tasks+=', ' + cur_speed + ' ' + (new Date().getMonth()+1) + ' ' + new Date().getDate() + 'th ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ' ' + percentage + '%';
  for (var i=1; i<=(percent/percent); i++) {
  
-  var done = document.getElementById('tasks').value  + '...';
+  var done = tasks  + '...';
  var done2 = Date().slice(0,24)  
   document.getElementById('stat').style.height = click*30+30  + 'px';
  document.getElementById('stat').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='speed' style='  z-index: 5;  opacity: 1; border: 0px solid darkgreen; position: absolute; top: "+click*30+"px;   height: "+ 30+"px; width: "+100+"%'>"+done+"</div>");
@@ -906,7 +917,7 @@ document.getElementById('stat8').style.height = click*30+30  + 'px';
 document.getElementById('stat8').insertAdjacentHTML('beforeend', "<div id='"+a+"' alt='temp'style='  opacity: 1;   border: 2px solid darkred; background-color: #ff7b2e; position: absolute; top: "+click*30+"px;  height: "+ 30+"px; width: "+as2/10+"%'></div>");
 
 for (var j=1; j<=(percent); j++) {
-document.getElementById('stat6').insertAdjacentHTML('beforeend', "<p>"+document.querySelector('#tasks').value+"</p><img class='factory' style='width: 100px' src='"+img1.src+"'/>");
+document.getElementById('stat6').insertAdjacentHTML('beforeend', "<p>" + cur_speed + ' ' + (new Date().getMonth()+1) + ' ' + new Date().getDate() + 'th ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ' ' + percentage + '% ' +document.querySelector('#tasks').value+"</p><img class='factory' style='width: 100px' src='"+img1.src+"'/>");
 document.querySelector('#tasks').value = '';
 }
 
@@ -944,7 +955,7 @@ document.body.removeChild(link);
 ///
 
 }
-  document.querySelector('#tasks').value = tasks
+  document.querySelector('#tasks').value = tasks2
 }
 
  
@@ -966,6 +977,7 @@ document.getElementById("metr2").style.transform = "rotate("+deg2+"deg)";
 document.getElementById("metr3").style.transform = "rotate("+deg3+"deg)";
 document.getElementById("metr4").style.transform = "rotate("+deg4+"deg)";
 document.getElementById('made').innerHTML = 'It takes ' + made + ' sec for 1%';
+document.getElementById('made2').innerHTML = 'Overall it takes ' + (1/(as2/60/60)) + ' sec for 1%';
 document.getElementById('ll').innerHTML = 'From the last 1% ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.'
 document.getElementById('cur_speed').innerHTML = 'Current speed: ' + cur_speed + '%/h';
 document.getElementById('sp').innerHTML = 'Average speed: ' + as + '%/h';
@@ -978,9 +990,15 @@ document.getElementById('pp').innerHTML = '1% once in (AVERAGE) : ' + Math.floor
 r = m;
 r = r*(goal-percentage)
 document.getElementById('r').innerHTML = 'Approximately left: ' + Math.floor(r/60/60/1000) + ' hours ' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.'
+var r2 =  (1*goal)/as2
+r2 = r2*1000*60*60
+var goal2 = goal;
+goal = goal*1-percentage;
+document.getElementById('or').innerHTML = 'Overall approximately left: ' + Math.floor(((1*goal)/as2)/24) + ' days ' + (Math.floor(r2/60/60/1000)-24*Math.floor(r2/24/60/60/1000)) + ' hours ' + ' ' + (Math.floor(r2/60/1000)-60*Math.floor(r2/60/60/1000)) + ' min' + ' ' + (Math.floor(r2/1000)-60*Math.floor(r2/60/1000)) + ' sec.'
+goal = goal2;
 time = Date.now();
 lastuptime = Date.now();
-document.getElementById('pb').style.width = ((percentage/goal)*100) + '%';
+document.getElementById('pb').style.width = 100-((percentage/goal)*100) + '%';
 document.getElementById('p').innerHTML = percentage;
 //hereitcomes^
 document.getElementById('percentage').innerHTML = 'Overall percentage: ' + percentage + '%';
@@ -995,6 +1013,7 @@ document.getElementById('uptime').innerHTML = 'Uptime for ' + Math.floor(uptime/
 document.getElementById('avg').innerHTML = 'Graph speed: ' + avg() + '%/h.';
 document.getElementById('report').value = document.getElementById('report').value + '\n' + '>>> ' +a + '% Tasks: ' + document.getElementById('tasks').value  + '. \n Time: last: ' + (Math.floor(l/1000)-60*Math.floor(l/60/1000)) + 'sec; ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() + ' Passed: ' + Math.floor(s/60/60/1000) + ' hours' + ' ' + (Math.floor(s/60/1000)-60*Math.floor(s/60/60/1000)) + ' min' + ' ' + (Math.floor(s/1000)-60*Math.floor(s/60/1000)) + ' sec. '+'Approximately left: ' + Math.floor(r/60/60/1000) + ' hours' + ' ' + (Math.floor(r/60/1000)-60*Math.floor(r/60/60/1000)) + ' min' + ' ' + (Math.floor(r/1000)-60*Math.floor(r/60/1000)) + ' sec.' + ' CPU: ' + document.getElementById("cpu").value + ' Power: ' + document.getElementById("pow").value + ' Temp: ' + document.getElementById("temp").value + ' Motiva: ' + document.getElementById("motiva").value;
 document.getElementById('report').value += '\n It takes ' + made + ' sec for 1%';
+document.getElementById('report').value += '\n Overall it takes ' + (1/(as2/60/60)) + ' sec for 1%';
 document.getElementById('report').value+= '\n' + document.getElementById('ll').innerHTML;
 document.getElementById('report').value+=' \n Current speed: ' + cur_speed + '%/h';
 document.getElementById('report').value+='\n Average speed: ' + as + '%/h';
@@ -1004,17 +1023,18 @@ document.getElementById('report').value+='\n'+document.getElementById('worktime'
 document.getElementById('report').value+= '\n'+document.getElementById('uptime').innerHTML;
 document.getElementById('report').value+= '\n' + 'Overall percentage: ' + percentage+ '%';
 document.getElementById('report').value+= '\n' + 'WorkTime/AllTime: ' + ((worktime/s)*100)+ '%';
-
+document.getElementById('report').value+= '\n' + 'Working hours per day ' + worktime/(Date.now()-begining)*24;
 if (tf4[0] !== "") {
 	try { 
 
 for (var i = 0; i<tf4.length; i++) {
-  if (document.querySelectorAll('.taskstatus').style.opacity == "1") {
+  if (document.querySelectorAll('.taskstatus')[i].style.opacity == "1") {
 document.getElementById('report').value+= '\n ********************';
 document.getElementById('report').value+= ' \n Task ' +	document.querySelectorAll('.taskfield')[i].value
-document.getElementById('report').value+= ' is ' + document.querySelectorAll('.taskpercent')[i].value + '.'
+document.getElementById('report').value+= ' is ' + document.querySelectorAll('.taskpercent')[i].value + '%.'
 document.getElementById('report').value+= 'Approx: ' +	document.querySelectorAll('.approx')[i].value + '.'
 document.getElementById('report').value+= '\n ********************';	
+ 
 }
 }	
 } catch(e) {console.log('error with tasks')}
@@ -1094,6 +1114,7 @@ document.querySelectorAll('.approx')[i].value += 'SpW: ' + Math.floor((document.
 }
 } catch(e) {}
 }
+document.querySelector('#daywork').innerHTML = 'Working hours per day: ' + worktime/(Date.now()-begining)*24;
 saveprogress();
 }
 
